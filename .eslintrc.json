@@ -1,0 +1,17 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@next/next/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "no-plusplus": [
+      "error",
+      {
+        "allowForLoopAfterthoughts": true
+      }
+    ],
+    "prettier/prettier": ["warn"],
+    "react-hooks/rules-of-hooks": ["error", {}]
+  }
+}

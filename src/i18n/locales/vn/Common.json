@@ -1,0 +1,66 @@
+{
+  "Title": "Tiêu đề",
+  "Project1": {
+    "Description": "Dự án trò chơi đố vui với nhiều câu đố đa dạng bao gồm câu đố, ngôn ngữ, hiểu, đoán từ, hình ảnh, âm thanh. Dự án có hệ thống SEO chuẩn."
+  },
+  "Project2": {
+    "Description": "Một nền tảng giúp mọi người giữ liên lạc với cuộc sống lành mạnh."
+  },
+  "Project4": {
+    "Description": "Bảng điều khiển theo dõi tình trạng cho thuê tài sản khi nào và ở đâu khách hàng cần. Đây là một trong những dịch vụ của madecomfy"
+  },
+  "Project5": {
+    "Description": "Công cụÏ tính toán giá trị của các đơn hàng đặt phòng, vé máy bay cho các đại lý để báo giá đến khách hàng"
+  },
+  "Project6": {
+    "Description": "1 nền tảng cung cấp các dịch vụ giúp đỡ người khuyết tật"
+  },
+  "Info": {
+    "Name": "Nguyễn Đăng Lân",
+    "Position1": "Web developer",
+    "Position2": "Mobile developer",
+    "Description": "Mục tiêu của tôi là làm việc ở một nơi làm việc chuyên nghiệp, để nâng cao kỹ năng và kiến ​​thức của mình về phát triển web và ứng dụng. Tôi đặt mục tiêu liên tục học hỏi và phát triển với tư cách là nhà phát triển Full-stack, luôn cập nhật các xu hướng và công nghệ phát triển web mới nhất."
+  },
+  "Nav": {
+    "About": "Giới thiệu",
+    "Projects": "Dự án",
+    "Contact": "Liên hệ"
+  },
+  "Achieve": {
+    "Experience": "Kinh nghiệm",
+    "Projects": "Dự án",
+    "Toeic": "Toeic"
+  },
+  "Portfolio": "Portfolio",
+  "Hero": {
+    "Hello": "Xin chào, tôi là"
+  },
+  "HireMe": "Liên hệ với tôi",
+  "CV": "CV của tôi",
+  "About": {
+    "Title": "Giới thiệu bản thân",
+    "Description": "Tôi là một lập trình viên front-end web/app với niềm đam mê tạo ra các ứng dụng tương tác và linh hoạt. Tôi có kinh nghiệm làm việc với JavaScript, Typescript, React, React native, Redux, Node js, HTML, CSS và Git. Tôi là người học nhanh và luôn tìm cách mở rộng kiến thức và kỹ năng của mình.",
+    "Skills": "Kỹ năng",
+    "Education": "Học vấn",
+    "Certifications": "Chứng chỉ",
+    "Uni": "Đại học bách khoa Hà Nội",
+    "Uni2": "Trung tâm đào tạo lập trình R2S"
+  },
+  "Year": "Năm",
+  "EmailSection": {
+    "Connect": "Liên hệ với tôi",
+    "Description": "Tôi hiện đang tìm kiếm cơ hội mới, hộp thư đến của tôi luôn mở. Cho dù bạn có câu hỏi hay chỉ muốn chào hỏi, tôi sẽ cố gắng hết sức để liên hệ lại với bạn!",
+    "Button": "Gửi",
+    "ButtonSuccess": "Gửi thành công",
+    "ButtonFailed": "Gửi thất bại",
+    "ButtonSending": "Đang gửi...",
+    "YourEmail": "Email",
+    "Subject": "Chủ đề",
+    "Message": "Tin nhắn"
+  },
+  "Timeline": {
+    "Title": "Kinh nghiệm làm việc"
+  },
+  "Present": "Hiện nay",
+  "MyProjects": "Các dự án"
+}

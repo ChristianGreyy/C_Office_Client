@@ -1,0 +1,66 @@
+{
+  "Title": "Title",
+  "Project1": {
+    "Description": "Quiz game project with a variety of quizzes including trivia, language-wise, comprehension, guess-the-word, image, audio. Project has a standard SEO system."
+  },
+  "Project2": {
+    "Description": "A platform that help people keep in touch with healthy life"
+  },
+  "Project4": {
+    "Description": "Dashboard that monitor property’s rental status when and where customer need it. This is one of the madecomfy's services"
+  },
+  "Project5": {
+    "Description": "A project that calculates the value of reservations and airline tickets for agents to quote prices to customers."
+  },
+  "Project6": {
+    "Description": "A platform that provides services to help people with disabilities"
+  },
+  "Info": {
+    "Name": "Lan Nguyen",
+    "Position1": "Web developer",
+    "Position2": "Mobile developer",
+    "Description": "As a Front-end Developer, my objective is to work in a professional workplace, to improve my skills and knowledge in web and app development. I aim to continuously learn and grow as a Full-stack developer, staying up-to-date with the latest web development trends and technologies."
+  },
+  "Nav": {
+    "About": "About",
+    "Projects": "Projects",
+    "Contact": "Contact"
+  },
+  "Achieve": {
+    "Experience": "Years of experience",
+    "Projects": "Projects",
+    "Toeic": "Toeic"
+  },
+  "Portfolio": "Portfolio",
+  "Hero": {
+    "Hello": "Hello, I'm"
+  },
+  "HireMe": "Hire me",
+  "CV": "See my CV",
+  "About": {
+    "Title": "About Me",
+    "Description": "I am a Front-end web/app developer with a passion for creating interactive and responsive applications. I have experience working with JavaScript, Typescript, React, React native, Redux, Node js, HTML, CSS, and Git. I am a quick learner and I am always looking to expand my knowledge and skill set. I am a team player and I am excited to work with others to create amazing applications.",
+    "Skills": "Skills",
+    "Education": "Education",
+    "Certifications": "Certifications",
+    "Uni": "HaNoi University of Science and Technology",
+    "Uni2": "R2S Academy of Code"
+  },
+  "Year": "Year",
+  "EmailSection": {
+    "Connect": "Let's Connect",
+    "Description": "I'm currently looking for new opportunities, my inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
+    "Button": "Send message",
+    "ButtonSuccess": "Send message success",
+    "ButtonFailed": "Send message failed",
+    "ButtonSending": "Sending...",
+    "YourEmail": "Your email",
+    "Subject": "Subject",
+    "Message": "Message"
+  },
+  "Timeline": {
+    "Title": "My experience"
+  },
+  "Present": "Present",
+  "MyProjects": "My Projects"
+}
