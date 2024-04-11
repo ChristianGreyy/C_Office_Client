@@ -21,17 +21,19 @@
     "Position2": "Mobile developer",
     "Description": "As a Front-end Developer, my objective is to work in a professional workplace, to improve my skills and knowledge in web and app development. I aim to continuously learn and grow as a Full-stack developer, staying up-to-date with the latest web development trends and technologies."
   },
-  "Nav": {
-    "About": "About",
-    "Projects": "Projects",
-    "Contact": "Contact"
+  "nav": {
+    "log_time": "Log time",
+    "projects": "Projects",
+    "hrm": "HRM",
+    "request": "Request",
+    "people": "People"
   },
   "Achieve": {
     "Experience": "Years of experience",
     "Projects": "Projects",
     "Toeic": "Toeic"
   },
-  "Portfolio": "Portfolio",
+  "COffice": "COffice Software",
   "Hero": {
     "Hello": "Hello, I'm"
   },

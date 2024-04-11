@@ -1,0 +1,63 @@
+export const appPoints = {
+  colors: {
+    colorHeader: '#726FE7',
+    primary: '#007bff',
+    background: '#f8f8f8',
+    dark: 'rgb(51,51,51)',
+    info: '#1890ff',
+    success: '#52c41a',
+    green: '#05C755',
+    processing: '#1890ff',
+    error: '#f5222d',
+    highlight: '#f5222d',
+    warning: '#faad14',
+    normal: '#d9d9d9',
+    text: 'rgba(0, 0, 0, .65)',
+    textSecondary: 'rgba(0,0,0,.45)',
+    borderBase: 'hsv(0, 0, 85%)',
+    textColor: '#2C2C2C',
+    gray: '#808080',
+    darkGray: '#C0C0C0',
+  },
+  heights: {
+    input: '48px',
+    button: '49px',
+  },
+  borderRadius: {
+    base: '4px',
+    sm: '4px',
+  },
+  breakPoints: {
+    breakSmall: '320px',
+    breakMobile: '375px',
+    breakMobileLarge: '414px',
+    breakMobileMax: '480px',
+    breakMobileMedium: '575px',
+    breakTablet: '767px',
+    breakIPadPro: '1024px',
+    breakDesktop: '1280px',
+    breakBig: '2048px',
+    breakBigMax: '3840px',
+  },
+  widths: {
+    withBodyApp: '95%',
+    withBodyAppBig: '85%',
+  },
+  family: {
+    font: `"Chinese Quote", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
+    code: `"Anonymous Pro", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace`,
+  },
+  menu: {
+    inlineTopLevelItemHeight: '36px',
+    itemHeight: '36px',
+  },
+  header: {
+    background: '#ffffff',
+    height: '60px',
+  },
+  card: {
+    paddingBase: '16px',
+    paddingWider: '16px',
+  },
+};

@@ -21,17 +21,19 @@
     "Position2": "Mobile developer",
     "Description": "Mục tiêu của tôi là làm việc ở một nơi làm việc chuyên nghiệp, để nâng cao kỹ năng và kiến ​​thức của mình về phát triển web và ứng dụng. Tôi đặt mục tiêu liên tục học hỏi và phát triển với tư cách là nhà phát triển Full-stack, luôn cập nhật các xu hướng và công nghệ phát triển web mới nhất."
   },
-  "Nav": {
-    "About": "Giới thiệu",
-    "Projects": "Dự án",
-    "Contact": "Liên hệ"
+  "nav": {
+    "log_time": "Chấm công",
+    "projects": "Dự án",
+    "hrm": "HRM",
+    "request": "Đơn",
+    "people": "Mọi người"
   },
   "Achieve": {
     "Experience": "Kinh nghiệm",
     "Projects": "Dự án",
     "Toeic": "Toeic"
   },
-  "Portfolio": "Portfolio",
+  "COffice": "COffice Software",
   "Hero": {
     "Hello": "Xin chào, tôi là"
   },
