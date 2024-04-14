@@ -32,7 +32,7 @@ const Navbar = () => {
       },
       {
         title: t('nav.projects'),
-        path: '#projects',
+        path: 'projects',
       },
       {
         title: t('nav.hrm'),

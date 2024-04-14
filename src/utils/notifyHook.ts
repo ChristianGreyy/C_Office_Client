@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { openToast } from 'src/redux';
+import { openToast } from '@/redux';
 
 export const useNotify = () => {
   //hook

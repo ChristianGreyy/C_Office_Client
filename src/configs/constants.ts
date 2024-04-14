@@ -1,17 +1,6 @@
-import { SideBarData } from '@interfaces'
-import {
-  PATH_CHAT_CHANNEL,
-  PATH_HOME,
-  PATH_LEVEL_MANAGEMENT,
-  PATH_NOTIFICATION,
-  PATH_POSITION_MANAGEMENT,
-  PATH_PRIORITY_MANAGEMENT,
-  PATH_STAFF_AND_ROLE_MANAGEMENT,
-  PATH_STATUS_MANAGEMENT,
-  PATH_TRACKER_MANAGEMENT,
-  PATH_UNIVERSITY_MANAGEMENT,
-  PATH_USER_MANAGEMENT
-} from './../routes/navigation'
+// import {
+
+// } from './../routes/navigation'
 import {
   enumCashbackType,
   enumDashboardFilterTime,
@@ -31,76 +20,6 @@ const SIDEBAR_COLLAPSED_WIDTH = '92px'
 const SIDEBAR_ICON_SIZE = '24px'
 const HEADER_HEIGHT = '65px'
 const HEADER_PADDING_TOP = '20px'
-
-const SIDEBAR_DATA: SideBarData[] = [
-  {
-    label: 'Dashboard',
-    path: PATH_HOME,
-    pathKey: enumNavKey.DASHBOARD,
-  },
-  // {
-  //   label: 'Plan Management',
-  //   path: PATH_PLAN,
-  //   pathKey: enumNavKey.PLAN_MANAGEMENT,
-  // },
-  {
-    label: 'User Management',
-    path: PATH_USER_MANAGEMENT,
-    pathKey: enumNavKey.USER_MANAGEMENT,
-  },
-  {
-    label: 'Position Management',
-    path: PATH_POSITION_MANAGEMENT,
-    pathKey: enumNavKey.POSITION_MANAGEMENT,
-  },
-  {
-    label: 'Level Management',
-    path: PATH_LEVEL_MANAGEMENT,
-    pathKey: enumNavKey.LEVEL_MANAGEMENT,
-  },
-  {
-    label: 'University Management',
-    path: PATH_UNIVERSITY_MANAGEMENT,
-    pathKey: enumNavKey.UNIVERSITY_MANAGEMENT,
-  },
-  {
-    label: 'Tracker Management',
-    path: PATH_TRACKER_MANAGEMENT,
-    pathKey: enumNavKey.TRACKER_MANAGEMENT,
-  },
-  {
-    label: 'Status Management',
-    path: PATH_STATUS_MANAGEMENT,
-    pathKey: enumNavKey.STATUS_MANAGEMENT,
-  },
-  {
-    label: 'Priority Management',
-    path: PATH_PRIORITY_MANAGEMENT,
-    pathKey: enumNavKey.PRIORITY_MANAGEMENT,
-  },
-  {
-    label: 'Notification',
-    path: PATH_NOTIFICATION,
-    pathKey: enumNavKey.NOTIFICATION,
-  },
-  {
-    label: 'Internal',
-    path: PATH_STAFF_AND_ROLE_MANAGEMENT,
-    pathKey: enumNavKey.CHAT_CHANNEL,
-    subItems: [
-      {
-        label: 'Chat channel',
-        path: PATH_CHAT_CHANNEL,
-        pathKey: enumNavKey.CHAT_CHANNEL,
-      },
-      {
-        label: 'Staff and role management',
-        path: PATH_STAFF_AND_ROLE_MANAGEMENT,
-        pathKey: enumNavKey.STAFF_AND_ROLE_MANAGEMENT,
-      },
-    ],
-  },
-]
 
 const AUTH_THEME_COLOR = '#184f64'
 
@@ -322,7 +241,7 @@ export const MAP_BOX_DEV_KEY =
   'pk.eyJ1IjoiYW5keWhpdSIsImEiOiJjbGNyOWl2ZDAwYmdjM3FucGMwbGhkbW90In0.ezl2EXwziuTkjZmYeh4Bcw'
 export {
   ALL_THEMES, AUTH_THEME_COLOR, CASHBACK_RULE_TYPE, CASHBACK_TYPE, CURRENT_THEME, DASHBOARD_FILTER_TIME, DAYS, DEFAULT_OPENING_HOUR, DEFAULT_WELCOMED_BENEFITS, FILTER_MEMBER_TYPE, HEADER_HEIGHT, HEADER_PADDING_TOP, MAIN_THEME_DATA, MAT_SM_SCREEN_WIDTH,
-  MAT_SM_SCREEN_WIDTH_MIN, OPENING_TYPE, PAGE_SIZE_OPTIONS, RESET, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_DATA, SIDEBAR_ICON_SIZE, SIDEBAR_WIDTH
+  MAT_SM_SCREEN_WIDTH_MIN, OPENING_TYPE, PAGE_SIZE_OPTIONS, RESET, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_ICON_SIZE, SIDEBAR_WIDTH
 }
 
 export const INITIAL_PAGINATION_SiZE = 10
