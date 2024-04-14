@@ -8,9 +8,12 @@ interface IButtonProps extends ButtonProps {
 
 export const Button = (props: IButtonProps) => {
   return (
-    <StyledButton {...props} className={`Button ${props.className || ''}`}>
+    // <StyledButton {...props} className={`Button ${props.className || ''}`}>
+    //   {props.children}
+    // </StyledButton>
+    <button className={`Button ${props.className || ''}`}>
       {props.children}
-    </StyledButton>
+    </button>
   )
 }
 

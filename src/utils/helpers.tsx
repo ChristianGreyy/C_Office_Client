@@ -1,4 +1,4 @@
-import { ClientStatusCode } from '@configs';
+import { ClientStatusCode } from '@/configs';
 import md5 from 'md5';
 import moment from 'moment';
 
