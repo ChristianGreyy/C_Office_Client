@@ -28,41 +28,6 @@
     "request": "Request",
     "people": "People"
   },
-  "Achieve": {
-    "Experience": "Years of experience",
-    "Projects": "Projects",
-    "Toeic": "Toeic"
-  },
-  "COffice": "COffice Software",
-  "Hero": {
-    "Hello": "Hello, I'm"
-  },
-  "HireMe": "Hire me",
-  "CV": "See my CV",
-  "About": {
-    "Title": "About Me",
-    "Description": "I am a Front-end web/app developer with a passion for creating interactive and responsive applications. I have experience working with JavaScript, Typescript, React, React native, Redux, Node js, HTML, CSS, and Git. I am a quick learner and I am always looking to expand my knowledge and skill set. I am a team player and I am excited to work with others to create amazing applications.",
-    "Skills": "Skills",
-    "Education": "Education",
-    "Certifications": "Certifications",
-    "Uni": "HaNoi University of Science and Technology",
-    "Uni2": "R2S Academy of Code"
-  },
-  "Year": "Year",
-  "EmailSection": {
-    "Connect": "Let's Connect",
-    "Description": "I'm currently looking for new opportunities, my inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!",
-    "Button": "Send message",
-    "ButtonSuccess": "Send message success",
-    "ButtonFailed": "Send message failed",
-    "ButtonSending": "Sending...",
-    "YourEmail": "Your email",
-    "Subject": "Subject",
-    "Message": "Message"
-  },
-  "Timeline": {
-    "Title": "My experience"
-  },
-  "Present": "Present",
-  "MyProjects": "My Projects"
+  "log_in": "Login",
+  "COffice": "COffice Software"
 }

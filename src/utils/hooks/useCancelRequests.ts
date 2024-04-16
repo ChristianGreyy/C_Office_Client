@@ -1,12 +1,13 @@
-import axios, { CancelToken, CancelTokenSource } from 'axios';
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import { LogApp } from '../utilities';
+"use client";
+import axios, { CancelToken, CancelTokenSource } from "axios";
+import { useCallback, useEffect, useMemo, useRef } from "react";
+import { LogApp } from "../utilities";
 interface HeaderProps {
   cancelToken: CancelToken;
 }
 export const useCancelRequest = (
   onFetch: (headers: AbortSignal) => Promise<any>,
-  onCancel?: () => void,
+  onCancel?: () => void
 ) => {
   const abortRef = useRef<AbortController | null>(null);
   const getSignal = useCallback(() => {
@@ -17,9 +18,9 @@ export const useCancelRequest = (
     try {
       await onFetch(getSignal());
     } catch (e) {
-      LogApp(abortRef.current, 'kuku');
+      LogApp(abortRef.current, "kuku");
       if (abortRef.current?.signal.aborted) {
-        LogApp('request cancelled!');
+        LogApp("request cancelled!");
       }
     }
   }, [onFetch]);

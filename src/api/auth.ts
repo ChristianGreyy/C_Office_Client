@@ -4,7 +4,7 @@ import {
   ILoginSuccessData,
   IResetPasswordFields,
   IVerifyEmailFields,
-} from '@interfaces'
+} from '@/interfaces'
 import { ApiClient } from './axiosClient'
 
 const baseEndPoint = '/auth'
