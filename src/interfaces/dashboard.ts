@@ -1,5 +1,5 @@
-import { enumDashboardFilterTime } from '@configs';
-import { IUserDetail } from './user-management';
+import { enumDashboardFilterTime } from '@/configs';
+import { IUserDetail } from '@/interfaces';
 
 export type TimePayload = { start_time: number; end_time: number };
 

@@ -13,17 +13,30 @@ import { Button } from "@/common";
 import Link from "next/link";
 import Aside from "@/components/Aside";
 import SwitchProject from "@/components/SwitchProject";
+import { useSelector } from "react-redux";
+import { RootState, getAllIssuesAction, getAllProjectsAction, useAppDispatch } from "@/redux";
 
-export default function LogTime() {
-  const [value, setValue] = useState(new Date());
+export default function IssuesPage() {
+  
+  const { issues } = useSelector((state: RootState) => state.issues);
+  console.log('issues', issues);
+  const dispatch = useAppDispatch();
+
+  const getAllIssues = () => {
+    dispatch(getAllIssuesAction());
+  };
+
+  // const onSearchProject = () => {
+  //   dispatch(
+  //     getAllProjectsAction({
+  //       search,
+  //     })
+  //   );
+  // };
 
   useEffect(() => {
-    const interval = setInterval(() => setValue(new Date()), 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+    getAllIssues();
+  }, [dispatch]);
 
   return (
     <Providers>
@@ -33,7 +46,7 @@ export default function LogTime() {
           <div className="basis-1/6">
             <Aside />
           </div>
-          <div className="basis-5/6">
+          <div className="basis-5/6 px-3 py-4">
             <SwitchProject />
             <div className="issues mt-8">
               <h1 className="text-[1.43em] font-medium leading-[1.33] mt-0 mb-5">
@@ -103,6 +116,7 @@ export default function LogTime() {
                     <th className="text-center">Tracker</th>
                     <th className="text-center">Status</th>
                     <th className="text-center">Priority</th>
+                    <th className="text-center">Subject</th>
                     <th className="text-center">Assignee</th>
                     <th className="text-center">Estimated time</th>
                     <th className="text-center">Spent time</th>
@@ -111,17 +125,22 @@ export default function LogTime() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b leading-10">
-                    <td className="text-left">#1</td>
-                    <td className="text-center">In-progress</td>
-                    <td className="text-center">Normal</td>
-                    <td className="text-center">[API] CRUD user</td>
-                    <td className="text-center">Trương Thành Hưng</td>
-                    <td className="text-center">03:00</td>
-                    <td className="text-center">03:00</td>
-                    <td className="text-center">23/05/2002</td>
-                    <td className="text-center">23/05/2002</td>
-                  </tr>
+                  {
+                    issues && issues.map(issue => (
+                      <tr className="border-b leading-10">
+                        <td className="text-left">#{issue.id}</td>
+                        <td className="text-center">{issue.tracker.name}</td>
+                        <td className="text-center">{issue.status.name}</td>
+                        <td className="text-center">{issue.priority.name}</td>
+                        <td className="text-center">[API] CRUD user</td>
+                        <td className="text-center">Trương Thành Hưng</td>
+                        <td className="text-center">03:00</td>
+                        <td className="text-center">03:00</td>
+                        <td className="text-center">23/05/2002</td>
+                        <td className="text-center">23/05/2002</td>
+                      </tr>
+                    ))
+                  }
                 </tbody>
               </table>
               </h1>
