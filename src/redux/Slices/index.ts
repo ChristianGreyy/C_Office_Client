@@ -5,13 +5,16 @@ import { combineReducers } from 'redux'
 // import { COFFICE_ACCESS_TOKEN } from '@configs'
 import authReducer from './auth'
 import toastReducer from './toast'
+import employeeAttendanceReducer from './employee-attendance-management'
 
 export * from './auth'
 export * from './toast'
+export * from './employee-attendance-management'
 
 const productReducer = combineReducers({
   auth: authReducer,
   toast: toastReducer,
+  employeeAttendances: employeeAttendanceReducer
 })
   
 export type RootState = ReturnType<typeof productReducer>

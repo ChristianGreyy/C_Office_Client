@@ -9,10 +9,27 @@ import "react-clock/dist/Clock.css";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
-import { Button } from "@/common";
+import { Button, SharedTable } from "@/common";
+import { getAllEmployeeAttendancesAction } from "@/redux/actions/employee-attendance-management";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, useAppDispatch } from "@/redux";
 
 export default function LogTime() {
   const [value, setValue] = useState(new Date());
+
+  const { employeeAttendances } = useSelector(
+    (state: RootState) => state.employeeAttendances
+  );
+  console.log("employeeAttendances", employeeAttendances);
+  const dispatch = useAppDispatch();
+
+  const getAllEmployeeAttendances = () => {
+    dispatch(getAllEmployeeAttendancesAction());
+  };
+
+  useEffect(() => {
+    getAllEmployeeAttendances();
+  }, [dispatch]);
 
   useEffect(() => {
     const interval = setInterval(() => setValue(new Date()), 1000);
@@ -24,7 +41,7 @@ export default function LogTime() {
 
   return (
     <Providers>
-      <main className="flex min-h-screen flex-col bg-stone-200">
+      <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
         <Navbar />
         <div className="container mx-auto p-10 mt-20 flex gap-3 h-screen">
           <div className="flex basis-3/5 flex-col items-center p-8 bg-white">
@@ -43,10 +60,15 @@ export default function LogTime() {
             ></textarea>
             <div className="log-time-button mt-10 flex justify-between">
               <div className="check-in-button">
-                <Button className="bg-orange-600 mr-8 border-0 text-white !font-bold hover:bg-orange-700 py-2 px-4 rounded">
+                {/* <Button className="bg-orange-600 mr-8 border-0 text-white !font-bold hover:bg-orange-700 py-2 px-4 rounded">
                   Check in
-                </Button>
-                {/* <button>07:59</button> */}
+                </Button> */}
+                <button
+                  className="bg-slate-200 bg-orange-600 mr-8 border-0 text-black !font-bold py-2 px-4 rounded"
+                  disabled
+                >
+                  07:59
+                </button>
               </div>
               <div className="check-out-button">
                 <Button className="bg-orange-600 border-0 text-white !font-bold hover:bg-orange-700 py-2 px-4 rounded">
@@ -60,97 +82,22 @@ export default function LogTime() {
             <table className="table-auto w-full">
               <thead className="uppercase">
                 <tr className="leading-10 border-b">
-                  <th className="text-left w-3/5">Full name</th>
+                  <th className="text-left w-max">Full name</th>
                   <th className="text-left">Check-in</th>
                   <th className="text-left">Check-out</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b leading-10">
-                  <td>Trương Hưnggggggggggg</td>
-                  <td>07:00</td>
-                  <td>05:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Trương Đạt</td>
-                  <td>05:00</td>
-                  <td>05:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                   <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
-                <tr className="border-b leading-10">
-                  <td>Khánh Linh</td>
-                  <td>04:00</td>
-                  <td>03:00</td>
-                </tr>
+                {employeeAttendances &&
+                  employeeAttendances.map((item) => {
+                    return (
+                      <tr className="border-b leading-10">
+                        <td>{`${item.user?.firstName} ${item.user?.lastName}`}</td>
+                        <td>{moment(item.checkInTime).format("h:mm")}</td>
+                        <td>{moment(item.checkOutTime).format("h:mm")}</td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

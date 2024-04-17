@@ -14,11 +14,10 @@ export const loginAction = createAsyncThunk(
   'auth/loginAction',
   async (
     payload: ILoginFields & { isRemember: boolean },
-    { fulfillWithValue }
+    { fulfillWithValue, rejectWithValue }
   ) => {
     const { isRemember, ...passPayload } = payload
     const res = await authAPI.login(passPayload)
-    console.log('res', res);
     if (res.statusCode === 200) {
       isRemember
         ? Cookies.set(COFFICE_ACCESS_TOKEN, res.data.accessToken, {
@@ -28,7 +27,7 @@ export const loginAction = createAsyncThunk(
 
       return fulfillWithValue(res)
     }
-    return fulfillWithValue(null)
+    return rejectWithValue(res);
   }
 )
 

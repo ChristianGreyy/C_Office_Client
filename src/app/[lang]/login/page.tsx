@@ -63,7 +63,6 @@ export default function Login() {
   };
 
   const handleLogin = handleSubmit(async (data) => {
-    alert('ok')
     try {
       const res = await dispatch(loginAction({ ...data, isRemember })).unwrap();
       res &&
@@ -72,7 +71,7 @@ export default function Login() {
           content: "Login successfully",
         });
 
-      router.push("/");
+      router.push("/en/log-time");
     } catch (err) {
       const error = err as BaseResponseError;
       message.error({
