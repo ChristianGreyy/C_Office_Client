@@ -6,14 +6,20 @@ import { combineReducers } from 'redux'
 import authReducer from './auth'
 import employeeAttendanceReducer from './employee-attendance-management'
 import issueReducer from './issue-management'
+import priorityReducer from './priority-management'
 import projectReducer from './project-mangement'
+import statusReducer from './status-management'
 import toastReducer from './toast'
+import trackerReducer from './tracker-management'
 
 export * from './auth'
 export * from './employee-attendance-management'
 export * from './issue-management'
+export * from './priority-management'
 export * from './project-mangement'
+export * from './status-management'
 export * from './toast'
+export * from './tracker-management'
 
 const productReducer = combineReducers({
   auth: authReducer,
@@ -21,6 +27,9 @@ const productReducer = combineReducers({
   employeeAttendances: employeeAttendanceReducer,
   projects: projectReducer,
   issues: issueReducer,
+  statuses: statusReducer,
+  trackers: trackerReducer,
+  priorities: priorityReducer
 })
   
 export type RootState = ReturnType<typeof productReducer>

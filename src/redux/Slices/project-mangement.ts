@@ -1,16 +1,21 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
 
-import { IProjectDetail } from '@/interfaces'
-import { getAllProjectsAction, getCurrentProjectByProfileAction } from '../actions'
+import { EStatusSLug, IProjectDetail, IProjectMember } from "@/interfaces";
+import {
+  getAllProjectsAction,
+  getMembersForProjectAction,
+  getProjectByIdAction,
+} from "../actions";
 interface IProjectsState {
-  projects: IProjectDetail[] | null
-  project: IProjectDetail | null
-  projectsCurrentPage: string | number
-  projectsTotalPage: string | number
-  projectsTotalItems: string | number
-  selectedProject: IProjectDetail | null
+  projects: IProjectDetail[] | null;
+  project: IProjectDetail | null;
+  members: IProjectMember[] | null;
+  projectsCurrentPage: string | number;
+  projectsTotalPage: string | number;
+  projectsTotalItems: string | number;
+  selectedProject: IProjectDetail | null;
 
-  loadings: Record<string, boolean | undefined>
+  loadings: Record<string, boolean | undefined>;
 }
 
 const initialState: IProjectsState = {
@@ -21,41 +26,72 @@ const initialState: IProjectsState = {
   projectsTotalItems: 0,
   selectedProject: null,
   loadings: {},
-}
+};
 
 const projectsSlice = createSlice({
-  name: 'projects',
+  name: "projects",
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllProjectsAction.pending, (state) => {
-      state.loadings[`getAllProjectsActionLoading`] = true
-    })
+      state.loadings[`getAllProjectsActionLoading`] = true;
+    });
     builder.addCase(getAllProjectsAction.fulfilled, (state, action) => {
-      state.loadings[`getAllProjectsActionLoading`] = false
-      state.projects = action.payload?.items ?? []
-      state.projectsCurrentPage = action.payload?.page ?? 0
-      state.projectsTotalPage = action.payload?.limit ?? 0
-      state.projectsTotalItems = action.payload?.total ?? 0
-    })
+      state.loadings[`getAllProjectsActionLoading`] = false;
+      state.projects = action.payload?.items ?? [];
+      state.projectsCurrentPage = action.payload?.page ?? 0;
+      state.projectsTotalPage = action.payload?.limit ?? 0;
+      state.projectsTotalItems = action.payload?.total ?? 0;
+    });
     builder.addCase(getAllProjectsAction.rejected, (state) => {
-      state.loadings[`getAllProjectsActionLoading`] = false
-    })
-    builder.addCase(getCurrentProjectByProfileAction.pending, (state) => {
-      state.loadings[`getCurrentProjectByProfileAction`] = true
-    })
-    builder.addCase(getCurrentProjectByProfileAction.fulfilled, (state, action) => {
-      state.loadings[`getCurrentProjectByProfileAction`] = false
-      state.project = action.payload ?? {}
-    })
-    builder.addCase(getCurrentProjectByProfileAction.rejected, (state) => {
-      state.loadings[`getCurrentProjectByProfileActionLoading`] = false
-    })
+      state.loadings[`getAllProjectsActionLoading`] = false;
+    });
+    builder.addCase(getProjectByIdAction.pending, (state) => {
+      state.loadings[`getProjectByIdAction`] = true;
+    });
+    builder.addCase(getProjectByIdAction.fulfilled, (state, action) => {
+      state.loadings[`getProjectByIdAction`] = false;
+      // state.project = action.payload ?? {}
+      state.project = action?.payload?.issues?.reduce((acc, item) => {
+        if (!acc[item.tracker.name]) {
+          acc[item.tracker.name] = {
+            closed: 0,
+            open: 0,
+          };
+        }
+        if (item.status.name === EStatusSLug.closed) {
+          acc[item.tracker.name]["closed"]++;
+        } else {
+          acc[item.tracker.name]["open"]++;
+        }
+        return acc;
+      }, {});
+    });
+    builder.addCase(getProjectByIdAction.rejected, (state) => {
+      state.loadings[`getProjectByIdActionLoading`] = false;
+    });
+
+    builder.addCase(getMembersForProjectAction.pending, (state) => {
+      state.loadings[`getMembersForProjectAction`] = true;
+    });
+    builder.addCase(getMembersForProjectAction.fulfilled, (state, action) => {
+      // state.members = action.payload ?? {}
+      state.members = action?.payload?.reduce((acc, item) => {
+        acc[item.role] = acc[item.role]
+          ? [...acc[item.role], item.user]
+          : [item.user];
+        return acc;
+      }, {});
+      state.loadings[`getMembersForProjectAction`] = false;
+    });
+    builder.addCase(getMembersForProjectAction.rejected, (state) => {
+      state.loadings[`getMembersForProjectActionLoading`] = false;
+    });
   },
-})
+});
 
 export const projectsActions = {
   ...projectsSlice.actions,
-}
+};
 
-export default projectsSlice.reducer
+export default projectsSlice.reducer;

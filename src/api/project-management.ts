@@ -2,6 +2,7 @@ import {
   IFetchProjectsParams,
   IFetchProjectsSuccessData,
   IProjectDetail,
+  IProjectMember,
   TUpdateProjectData,
 } from '@/interfaces'
 import { ApiClient } from './axiosClient'
@@ -13,9 +14,14 @@ export const projectManagementAPI = {
     })
   },
 
-  getCurrentProjectByProfileAction: async () => {
-    return await ApiClient.get<IProjectDetail>(`/projects/profile/current`)
+  getProjectByIdAction: async (id: number) => {
+    return await ApiClient.get<IProjectDetail>(`/projects/${id}`)
   },
+
+  getMembersForProjectAction: async (id: number) => {
+    return await ApiClient.get<IProjectMember[]>(`/projects/members/${id}`)
+  },
+
 
   createProjectAction: async (payload: Partial<TUpdateProjectData>) => {
     return await ApiClient.post<IProjectDetail, Omit<TUpdateProjectData, 'id'>>(

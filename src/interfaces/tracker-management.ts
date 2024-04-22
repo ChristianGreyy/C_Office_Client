@@ -22,9 +22,18 @@ export type TDeleteTrackerData = Partial<ITrackerDetail> & { isSoft: boolean }
 export interface ITrackerDetail {
   id?: number
   name: string
+  slug: string
 }
 
 
 export interface IEditTrackerData {
   name?: string
+}
+
+export enum ETrackerSLug {
+  feature = 'feature',
+  bug = 'bug',
+  test_case = 'test_case',
+  support = 'support',
+  meeting = 'meeting',
 }

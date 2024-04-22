@@ -10,6 +10,7 @@ import Providers from "@/components/Providers";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState, getAllProjectsAction, useAppDispatch } from "@/redux";
+import { EStatusSLug, IProjectDetail } from "@/interfaces";
 
 export default function LogTime() {
   const [search, setSearch] = useState("");
@@ -29,13 +30,27 @@ export default function LogTime() {
     );
   };
 
+  const handleCalculatePercentDonePartTotal = (
+    project: IProjectDetail, status: string
+  ): number => {
+    if (project.issues && project.issues.length > 0) {
+      const issues = project.issues?.map((item) => {
+        return item.status?.slug === status;
+      });
+      const issuesNumber = issues?.length || 0;
+      return (issuesNumber / project.issues?.length) * 100;
+    } else {
+      return 0;
+    }
+  };
+
   useEffect(() => {
     getAllProjects();
   }, [dispatch]);
 
   return (
     <Providers>
-      <main className="flex min-h-screen flex-col bg-stone-200">
+      <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
         <Navbar />
         <div className="container mx-auto p-10 mt-20">
           <form
@@ -86,32 +101,32 @@ export default function LogTime() {
                   <div className="mt-3">
                     <div className="flex justify-between mb-1">
                       <span className="text-base font-medium text-blue-700">
-                        Flowbite
+                        Done / Total
                       </span>
                       <span className="text-sm font-medium text-blue-700">
-                        45%
+                        {handleCalculatePercentDonePartTotal(item, EStatusSLug.resolved)}%
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: "45%" }}
+                        style={{ width: `${handleCalculatePercentDonePartTotal(item, EStatusSLug.resolved)}` }}
                       ></div>
                     </div>
                   </div>
                   <div className="mt-3">
                     <div className="flex justify-between mb-1">
                       <span className="text-base font-medium text-blue-700">
-                        Flowbite
+                        Closed / Total
                       </span>
                       <span className="text-sm font-medium text-blue-700">
-                        45%
+                        {handleCalculatePercentDonePartTotal(item, EStatusSLug.closed)}%
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: "45%" }}
+                        style={{ width: `${handleCalculatePercentDonePartTotal(item, EStatusSLug.closed)}` }}
                       ></div>
                     </div>
                   </div>

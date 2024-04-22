@@ -13,8 +13,8 @@ export const issueManagementAPI = {
     })
   },
 
-  getCurrentIssueByProfileAction: async () => {
-    return await ApiClient.get<IIssueDetail>(`/issues/profile/current`)
+  getIssueByIdAction: async (id: number) => {
+    return await ApiClient.get<IIssueDetail>(`/issues/${id}`)
   },
 
   createIssueAction: async (payload: Partial<TUpdateIssueData>) => {

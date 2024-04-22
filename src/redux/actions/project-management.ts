@@ -22,11 +22,23 @@ export const getAllProjectsAction = createAsyncThunk(
   }
 )
 
-export const getCurrentProjectByProfileAction = createAsyncThunk(
-  'projects/getProjectByProfileAction',
-  async () => {
+export const getProjectByIdAction = createAsyncThunk(
+  'projects/getProjectByIdAction',
+  async (id: number) => {
     try {
-      const res = await projectManagementAPI.getCurrentProjectByProfileAction()
+      const res = await projectManagementAPI.getProjectByIdAction(id)
+      return res.data
+    } catch (error) {
+      throw error
+    }
+  }
+)
+
+export const getMembersForProjectAction = createAsyncThunk(
+  'projects/getMembersForProjectAction',
+  async (id: number) => {
+    try {
+      const res = await projectManagementAPI.getMembersForProjectAction(id)
       return res.data
     } catch (error) {
       throw error

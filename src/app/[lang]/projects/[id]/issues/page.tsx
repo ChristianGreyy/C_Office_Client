@@ -2,37 +2,44 @@
 
 // This is a client component 👈🏽
 import moment from "moment";
-import { useEffect, useState } from "react";
-import Clock from "react-clock";
+import { useEffect } from "react";
 import "react-clock/dist/Clock.css";
 
+import Aside from "@/components/Aside";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
-import { Button } from "@/common";
-import Link from "next/link";
-import Aside from "@/components/Aside";
 import SwitchProject from "@/components/SwitchProject";
+import {
+  RootState,
+  getAllIssuesAction,
+  getAllPrioritiesAction,
+  getAllStatusesAction,
+  getAllTrackersAction,
+  useAppDispatch
+} from "@/redux";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
-import { RootState, getAllIssuesAction, getAllProjectsAction, useAppDispatch } from "@/redux";
 
 export default function IssuesPage() {
-  
   const { issues } = useSelector((state: RootState) => state.issues);
-  console.log('issues', issues);
+  const { trackers } = useSelector((state: RootState) => state.trackers);
+  const { priorities } = useSelector((state: RootState) => state.priorities);
+  const { statuses } = useSelector((state: RootState) => state.statuses);
+
+  const params = useParams();
+  const projectId = params.id;
+
   const dispatch = useAppDispatch();
 
   const getAllIssues = () => {
     dispatch(getAllIssuesAction());
+    dispatch(getAllTrackersAction());
+    dispatch(getAllPrioritiesAction());
+    dispatch(getAllStatusesAction());
   };
 
-  // const onSearchProject = () => {
-  //   dispatch(
-  //     getAllProjectsAction({
-  //       search,
-  //     })
-  //   );
-  // };
 
   useEffect(() => {
     getAllIssues();
@@ -40,7 +47,7 @@ export default function IssuesPage() {
 
   return (
     <Providers>
-      <main className="flex min-h-screen flex-col bg-stone-200">
+      <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
         <Navbar />
         <div className="mt-20 flex gap-4 h-screen">
           <div className="basis-1/6">
@@ -58,16 +65,23 @@ export default function IssuesPage() {
                     Status:
                   </div>
                   <select
-                    id="pricingType"
-                    name="pricingType"
-                    className="basis-1/3 h-10 border-2 border-slate-400 focus:outline-none focus:border-slate-400 text-black rounded px-2 md:px-3 py-0 md:py-1 tracking-wider"
+                    id="statuses"
+                    className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={(e) => {
+                      dispatch(
+                        getAllIssuesAction({
+                          statusId: e.target.value,
+                        })
+                      );
+                    }}
                   >
-                    <option value="All" selected>
+                    <option value="" selected>
                       All
                     </option>
-                    <option value="Freemium">Freemium</option>
-                    <option value="Free">Free</option>
-                    <option value="Paid">Paid</option>
+                    {statuses &&
+                      statuses.map((item) => (
+                        <option value={item.id}>{item.name}</option>
+                      ))}
                   </select>
                 </li>
                 <li className="flex mt-2 align-center">
@@ -75,16 +89,23 @@ export default function IssuesPage() {
                     Tracker:
                   </div>
                   <select
-                    id="pricingType"
-                    name="pricingType"
-                    className="basis-1/3 h-10 border-2 border-slate-400 focus:outline-none focus:border-slate-400 text-black rounded px-2 md:px-3 py-0 md:py-1 tracking-wider"
+                    id="trackers"
+                    className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={(e) => {
+                      dispatch(
+                        getAllIssuesAction({
+                          trackerId: e.target.value,
+                        })
+                      );
+                    }}
                   >
-                    <option value="All" selected>
+                    <option value="" selected>
                       All
                     </option>
-                    <option value="Freemium">Freemium</option>
-                    <option value="Free">Free</option>
-                    <option value="Paid">Paid</option>
+                    {trackers &&
+                      trackers.map((item) => (
+                        <option value={item.id}>{item.name}</option>
+                      ))}
                   </select>
                 </li>
                 <li className="flex mt-2 align-center">
@@ -92,57 +113,71 @@ export default function IssuesPage() {
                     Priority:
                   </div>
                   <select
-                    id="pricingType"
-                    name="pricingType"
-                    className="basis-1/3 h-10 border-2 border-slate-400 focus:outline-none focus:border-slate-400 text-black rounded px-2 md:px-3 py-0 md:py-1 tracking-wider"
+                    id="priorities"
+                    className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    onChange={(e) => {
+                      dispatch(
+                        getAllIssuesAction({
+                          priorityId: e.target.value,
+                        })
+                      );
+                    }}
                   >
-                    <option value="All" selected>
+                    <option value="" selected>
                       All
                     </option>
-                    <option value="Freemium">Freemium</option>
-                    <option value="Free">Free</option>
-                    <option value="Paid">Paid</option>
+                    {priorities &&
+                      priorities.map((item) => (
+                        <option value={item.id}>{item.name}</option>
+                      ))}
                   </select>
                 </li>
               </ul>
             </div>
             <div className="project-detail-statistic mt-4 border bg-gray-50 text-[#3e425a] mb-5 p-[15px] rounded-[3px] border-solid border-[#dadce7]">
               <h1 className="text-[1.14em] font-medium leading-[1.33] mt-0 mb-[20px]">
-                Issue 
+                Issue
                 <table className="table-auto w-full">
-                <thead className="uppercase">
-                  <tr className="leading-10 border-b">
-                    <th className="text-center">#</th>
-                    <th className="text-center">Tracker</th>
-                    <th className="text-center">Status</th>
-                    <th className="text-center">Priority</th>
-                    <th className="text-center">Subject</th>
-                    <th className="text-center">Assignee</th>
-                    <th className="text-center">Estimated time</th>
-                    <th className="text-center">Spent time</th>
-                    <th className="text-center">Start date</th>
-                    <th className="text-center">Due date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {
-                    issues && issues.map(issue => (
-                      <tr className="border-b leading-10">
-                        <td className="text-left">#{issue.id}</td>
-                        <td className="text-center">{issue.tracker.name}</td>
-                        <td className="text-center">{issue.status.name}</td>
-                        <td className="text-center">{issue.priority.name}</td>
-                        <td className="text-center">[API] CRUD user</td>
-                        <td className="text-center">Trương Thành Hưng</td>
-                        <td className="text-center">03:00</td>
-                        <td className="text-center">03:00</td>
-                        <td className="text-center">23/05/2002</td>
-                        <td className="text-center">23/05/2002</td>
-                      </tr>
-                    ))
-                  }
-                </tbody>
-              </table>
+                  <thead className="uppercase">
+                    <tr className="leading-10 border-b">
+                      <th className="text-center">#</th>
+                      <th className="text-center">Tracker</th>
+                      <th className="text-center">Status</th>
+                      <th className="text-center">Priority</th>
+                      <th className="text-center">Subject</th>
+                      <th className="text-center">Assignee</th>
+                      <th className="text-center">Estimated time</th>
+                      <th className="text-center">Spent time</th>
+                      <th className="text-center">Start date</th>
+                      <th className="text-center">Due date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {issues &&
+                      issues.map((issue) => (
+                        <tr className="border-b leading-10 hover:bg-[rgb(209,211,224,0.4)] cursor-pointer">
+                          <td className="text-left">
+                            <Link href={`/en/projects/${projectId}/issues/${issue.id}`}>
+                              #{issue.id}
+                            </Link>
+                          </td>
+                          <td className="text-center">{issue.tracker?.name}</td>
+                          <td className="text-center">{issue.status?.name}</td>
+                          <td className="text-center">{issue.priority?.name}</td>
+                          <td className="text-center">{issue.subject}</td>
+                          <td className="text-center">{issue.assigner && `${issue.assigner?.firstName} ${issue.assigner?.lastName}`}</td>
+                          <td className="text-center">{issue.estimateTime}</td>
+                          <td className="text-center">{issue.spentTime}</td>
+                          <td className="text-center">
+                            {moment(issue.startDate).format("DD/MM/YYYY")}
+                          </td>
+                          <td className="text-center">
+                            {moment(issue.dueDate).format("DD/MM/YYYY")}
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </h1>
             </div>
           </div>

@@ -22,11 +22,11 @@ export const getAllIssuesAction = createAsyncThunk(
   }
 )
 
-export const getCurrentIssueByProfileAction = createAsyncThunk(
+export const getIssueByIdAction = createAsyncThunk(
   'issues/getIssueByProfileAction',
-  async () => {
+  async (id: number) => {
     try {
-      const res = await issueManagementAPI.getCurrentIssueByProfileAction()
+      const res = await issueManagementAPI.getIssueByIdAction(id)
       return res.data
     } catch (error) {
       throw error

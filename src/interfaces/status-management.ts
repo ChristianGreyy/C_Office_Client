@@ -22,9 +22,19 @@ export type TDeleteStatusData = Partial<IStatusDetail> & { isSoft: boolean }
 export interface IStatusDetail {
   id?: number
   name: string
+  slug: string
 }
-
 
 export interface IEditStatusData {
   name?: string
+}
+
+export enum EStatusSLug {
+  new = 'new',
+  re_open = 're_open',
+  in_progress = 'in_progress',
+  resolved = 'resolved',
+  pending = 'pending',
+  feedback = 'feedback',
+  closed = 'closed',
 }

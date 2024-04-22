@@ -19,5 +19,8 @@ export * from './theme'
 export * from './tier'
 export * from './toast'
 export * from './user-management'
+export * from './status-management'
+export * from './priority-management'
+export * from './tracker-management'
 
 

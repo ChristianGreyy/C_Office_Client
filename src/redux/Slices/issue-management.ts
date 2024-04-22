@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 import { IIssueDetail } from '@/interfaces'
-import { getAllIssuesAction, getCurrentIssueByProfileAction } from '../actions'
+import { getAllIssuesAction, getIssueByIdAction } from '../actions'
 interface IIssuesState {
   issues: IIssueDetail[] | null
   issue: IIssueDetail | null
@@ -41,14 +41,14 @@ const issuesSlice = createSlice({
     builder.addCase(getAllIssuesAction.rejected, (state) => {
       state.loadings[`getAllIssuesActionLoading`] = false
     })
-    builder.addCase(getCurrentIssueByProfileAction.pending, (state) => {
-      state.loadings[`getCurrentIssueByProfileAction`] = true
+    builder.addCase(getIssueByIdAction.pending, (state) => {
+      state.loadings[`getIssueByIdAction`] = true
     })
-    builder.addCase(getCurrentIssueByProfileAction.fulfilled, (state, action) => {
-      state.loadings[`getCurrentIssueByProfileAction`] = false
+    builder.addCase(getIssueByIdAction.fulfilled, (state, action) => {
+      state.loadings[`getIssueByIdAction`] = false
       state.issue = action.payload ?? {}
     })
-    builder.addCase(getCurrentIssueByProfileAction.rejected, (state) => {
+    builder.addCase(getIssueByIdAction.rejected, (state) => {
       state.loadings[`getCurrentIssueByProfileActionLoading`] = false
     })
   },
