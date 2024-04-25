@@ -3,17 +3,16 @@ import React from "react";
 import { FieldTimeOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
+import { EAside } from "@/enum";
 
 type AsideProps = {
-  //   name: string;
-  //   onClick: (name: string) => void;
-  //   isSelected: boolean;
+  title?: EAside;
 };
 
-const Aside = ({}: AsideProps) => {
+const Aside = ({ title }: AsideProps) => {
   const params = useParams();
   const projectId = params.id;
-  console.log('ProjectId', projectId);
+  console.log("title", title);
   return (
     <aside
       id="separator-sidebar"
@@ -25,7 +24,7 @@ const Aside = ({}: AsideProps) => {
           <li>
             <Link
               href={`/projects/${projectId}`}
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700"
+              className={`group flex items-center rounded-lg p-2 ${title === EAside.overview ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
               <span className="ms-3">Overview</span>
@@ -34,11 +33,11 @@ const Aside = ({}: AsideProps) => {
           <li>
             <Link
               href={`/projects/${projectId}/activity`}
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700"
+              className={`group flex items-center rounded-lg p-2 ${title === EAside.activity ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
               <span className="ms-3 flex-1 whitespace-nowrap">Activity</span>
-              <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+              <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
                 Pro
               </span>
             </Link>
@@ -46,7 +45,7 @@ const Aside = ({}: AsideProps) => {
           <li>
             <Link
               href={`/projects/${projectId}/issues`}
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700"
+              className={`group flex items-center rounded-lg p-2 ${title === EAside.issues ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
               <span className="ms-3 flex-1 whitespace-nowrap">Issues</span>
@@ -55,7 +54,7 @@ const Aside = ({}: AsideProps) => {
           <li>
             <Link
               href={"/"}
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700"
+              className={`group flex items-center rounded-lg p-2 ${title === EAside.spent_time ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
               <span className="ms-3 flex-1 whitespace-nowrap">Spent time</span>
@@ -64,7 +63,7 @@ const Aside = ({}: AsideProps) => {
           <li>
             <Link
               href={"/"}
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700"
+              className={`group flex items-center rounded-lg p-2 ${title === EAside.wiki ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
               <span className="ms-3 flex-1 whitespace-nowrap">Wiki</span>
@@ -75,11 +74,11 @@ const Aside = ({}: AsideProps) => {
           <li>
             <Link
               href={"/"}
-              className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-black dark:hover:bg-gray-700"
+              className={`group flex items-center rounded-lg p-2 ${title === EAside.development ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
               <span className="ms-3 flex-1 whitespace-nowrap">Development</span>
-              <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+              <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
                 Pro
               </span>
             </Link>

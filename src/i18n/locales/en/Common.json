@@ -29,5 +29,28 @@
     "people": "People"
   },
   "log_in": "Login",
-  "COffice": "COffice Software"
+  "COffice": "COffice Software",
+  "issues": {
+    "create_issue": "Create issue",
+    "subject": "Subject",
+    "input": "Description",
+    "startDate": "Start date",
+    "dueDate": "Due date",
+    "estimateTime": "Estimate time",
+    "output": "output",
+    "assignee": "Assignee",
+    "priority": "Priority",
+    "tracker": "Tracker",
+    "status": "Status",
+    "categoryId": "categoryId",
+    "projectId": "projectId",
+    "completedPercent": "% Done",
+    "create": "Create",
+    "create_and_add_another": "Create and add another"
+  },
+  "error": {
+    "required": "The field is required",
+    "min_length": "The field needs to be at least {{length}}",
+    "max_length": "The field needs to be less than {{length}}"
+  }
 }

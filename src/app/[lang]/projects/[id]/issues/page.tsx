@@ -16,11 +16,12 @@ import {
   getAllPrioritiesAction,
   getAllStatusesAction,
   getAllTrackersAction,
-  useAppDispatch
+  useAppDispatch,
 } from "@/redux";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
+import { EAside } from "@/enum";
 
 export default function IssuesPage() {
   const { issues } = useSelector((state: RootState) => state.issues);
@@ -40,7 +41,6 @@ export default function IssuesPage() {
     dispatch(getAllStatusesAction());
   };
 
-
   useEffect(() => {
     getAllIssues();
   }, [dispatch]);
@@ -49,12 +49,23 @@ export default function IssuesPage() {
     <Providers>
       <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
         <Navbar />
-        <div className="mt-20 flex gap-4 h-screen">
+        <div className="mt-20 flex gap-4 h-screen text-sm">
           <div className="basis-1/6">
-            <Aside />
+            <Aside title={EAside.issues} />
           </div>
           <div className="basis-5/6 px-3 py-4">
-            <SwitchProject />
+            <div className="flex justify-between">
+              <div className="flex-1">
+                <SwitchProject />
+              </div>
+              <div className="bg-sky-600 flex items-center text-white py-2 px-4 rounded-lg">
+                <Link
+                  href={`/en/projects/${projectId}/issues/add-issue`}
+                >
+                  Add new issue
+                </Link>
+              </div>
+            </div>
             <div className="issues mt-8">
               <h1 className="text-[1.43em] font-medium leading-[1.33] mt-0 mb-5">
                 Filter
@@ -155,17 +166,32 @@ export default function IssuesPage() {
                   <tbody>
                     {issues &&
                       issues.map((issue) => (
-                        <tr className="border-b leading-10 hover:bg-[rgb(209,211,224,0.4)] cursor-pointer">
+                        <tr className="border-b leading-10 hover:bg-[rgb(209,211,224,0.4)]">
                           <td className="text-left">
-                            <Link href={`/en/projects/${projectId}/issues/${issue.id}`}>
+                            <Link
+                              className="underline hover:text-[#0051cc]"
+                              href={`/en/projects/${projectId}/issues/${issue.id}`}
+                            >
                               #{issue.id}
                             </Link>
                           </td>
                           <td className="text-center">{issue.tracker?.name}</td>
                           <td className="text-center">{issue.status?.name}</td>
-                          <td className="text-center">{issue.priority?.name}</td>
+                          <td className="text-center">
+                            {issue.priority?.name}
+                          </td>
                           <td className="text-center">{issue.subject}</td>
-                          <td className="text-center">{issue.assigner && `${issue.assigner?.firstName} ${issue.assigner?.lastName}`}</td>
+                          <td className="text-center">
+                            {issue.assigner && (
+                              <Link
+                                className="underline hover:text-[#0051cc]"
+                                href={`/en/user/${issue.assigner.id}}`}
+                              >
+                                {issue.assigner?.firstName}{" "}
+                                {issue.assigner?.lastName}
+                              </Link>
+                            )}
+                          </td>
                           <td className="text-center">{issue.estimateTime}</td>
                           <td className="text-center">{issue.spentTime}</td>
                           <td className="text-center">

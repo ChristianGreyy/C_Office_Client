@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { EStatusSLug, IProjectDetail, IProjectMember } from "@/interfaces";
+import { EStatusSLug, IProjectDetail, IProjectMember, IProjectMemberLayout } from "@/interfaces";
 import {
   getAllProjectsAction,
   getMembersForProjectAction,
@@ -10,6 +10,7 @@ interface IProjectsState {
   projects: IProjectDetail[] | null;
   project: IProjectDetail | null;
   members: IProjectMember[] | null;
+  membersLayout: IProjectMemberLayout | null;
   projectsCurrentPage: string | number;
   projectsTotalPage: string | number;
   projectsTotalItems: string | number;
@@ -21,6 +22,7 @@ interface IProjectsState {
 const initialState: IProjectsState = {
   projects: [],
   project: null,
+  membersLayout: {},
   projectsCurrentPage: 0,
   projectsTotalPage: 0,
   projectsTotalItems: 0,
@@ -76,12 +78,12 @@ const projectsSlice = createSlice({
     });
     builder.addCase(getMembersForProjectAction.fulfilled, (state, action) => {
       // state.members = action.payload ?? {}
-      state.members = action?.payload?.reduce((acc, item) => {
+      state.membersLayout = action?.payload?.reduce((acc, item) => {
         acc[item.role] = acc[item.role]
           ? [...acc[item.role], item.user]
           : [item.user];
         return acc;
-      }, {});
+      }, {} );
       state.loadings[`getMembersForProjectAction`] = false;
     });
     builder.addCase(getMembersForProjectAction.rejected, (state) => {

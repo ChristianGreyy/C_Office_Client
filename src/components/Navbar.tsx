@@ -11,12 +11,16 @@ import { useLanguage } from "@/i18n/hooks.ts";
 
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 
-import { EThemeMode } from "../enum/index.ts";
+import { ENavbar, EThemeMode } from "../enum/index.ts";
 import MenuOverlay from "./MenuOverlay";
 import NavLink from "./NavLink.tsx";
 import { ThemeContext } from "./Providers.tsx";
 
-const Navbar = () => {
+type Props =  {
+  title?: ENavbar
+}
+
+const Navbar = ({ title }: Props) => {
   const params = useParams();
   const lang = params.lang as Language;
   const { t } = useClientTranslation("Common");

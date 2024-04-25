@@ -19,6 +19,8 @@ import moment from "moment";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
+import { capitalizeFirstLetter } from "@/utils";
+import { EAside, ENavbar } from "@/enum";
 
 export default function ProjectDetailPage() {
   const [feature, setFeature] = useState<IIssueDetail[]>([]);
@@ -26,7 +28,7 @@ export default function ProjectDetailPage() {
   const params = useParams();
   const projectId = params.id;
   const dispatch = useAppDispatch();
-  const { project, members, loadings } = useSelector(
+  const { project, members, membersLayout, loadings } = useSelector(
     (state: RootState) => state.projects
   );
 
@@ -38,8 +40,8 @@ export default function ProjectDetailPage() {
     dispatch(getMembersForProjectAction(+projectId));
   };
 
-  console.log("loadings", loadings["getProjectByIdAction"]);
-  console.log(members);
+  // console.log("loadings", loadings["getProjectByIdAction"]);
+  // console.log(members);
 
   useEffect(() => {
     getProjectById();
@@ -51,7 +53,7 @@ export default function ProjectDetailPage() {
       <Navbar />
       <div className="mt-20 flex gap-4 h-screen">
         <div className="basis-1/6">
-          <Aside />
+          <Aside title={EAside.overview} />
         </div>
         <div className="basis-4/6 px-3 py-4">
           <SwitchProject />
@@ -62,11 +64,11 @@ export default function ProjectDetailPage() {
             <ul className="list-disc pl-4">
               <li>
                 Kickoff Date:{" "}
-                {project && moment(project.kickOffDate).format("DD/MM/YYYY")}
+                {project && project.kickOffDate ? moment(project.kickOffDate).format("DD/MM/YYYY") : ''}
               </li>
               <li>
                 Deadline:{" "}
-                {project && moment(project.kickOffDate).format("DD/MM/YYYY")}
+                {project && project.kickOffDate ? moment(project.kickOffDate).format("DD/MM/YYYY") : ''}
               </li>
             </ul>
           </div>
@@ -165,26 +167,23 @@ export default function ProjectDetailPage() {
               Members
             </h1>
             <ul className="list-disc">
-              {members &&
-                Object.keys(members)((item) => (
+              {membersLayout &&
+                Object.keys(membersLayout).map((item) => (
                   <li className="flex mt-2">
                     <div className="project-detail-statistic__title">
-                      Manager:
+                      {capitalizeFirstLetter(item)}:
                     </div>
                     <div className="project-detail-statistic__member">
-                      <Link
-                        href={"/"}
-                        className="text-ss font-semibold text-cyan-600 md:text-sm pl-2"
-                      >
-                        Trương Thành Hưng
-                      </Link>
-                      ,
-                      <Link
-                        href={"/"}
-                        className="text-ss font-semibold text-cyan-600 md:text-sm pl-1"
-                      >
-                        Trương Thành Hưng
-                      </Link>
+                      {
+                        membersLayout[item].map(item => (
+                          <Link
+                            href={`/${item.id}`}
+                            className="text-ss font-semibold text-cyan-600 md:text-sm pl-2"
+                          >
+                            {item.firstName} {item.lastName}
+                          </Link>
+                        ))
+                      }
                     </div>
                   </li>
                 ))}

@@ -52,6 +52,11 @@ export interface IProjectMember {
   user: IUserDetail;
 }
 
+export interface IProjectMemberLayout {
+  [key: string]:  IUserDetail[];
+}
+
+
 export interface IEditProjectData {
   name?: string;
 }
