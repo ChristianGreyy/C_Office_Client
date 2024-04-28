@@ -36,7 +36,7 @@
     "input": "Description",
     "startDate": "Start date",
     "dueDate": "Due date",
-    "estimateTime": "Estimate time",
+    "estimateTime": "Estimate",
     "output": "output",
     "assignee": "Assignee",
     "priority": "Priority",

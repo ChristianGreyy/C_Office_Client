@@ -28,9 +28,9 @@ import {
   useAppDispatch,
 } from "@/redux";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Card, DatePicker, message } from "antd";
+import { Card, DatePicker, Input, message } from "antd";
 import { t } from "i18next";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import EditorTheme from "@/components/editors/EditorTheme";
@@ -39,6 +39,8 @@ import TreeViewPlugin from "@/components/editors/plugins/TreeViewPlugin";
 import "@/components/editors/style.css";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import HtmlPlugin from "@/components/editors/HtmlPlugin";
 
 export const addIssueSchema = z.object({
   subject: z
@@ -77,7 +79,7 @@ export const addIssueSchema = z.object({
       message: t("error:required") as string,
     })
     .transform((e) => (e === "" ? undefined : e)),
-  estimateTime: z.number(),
+  estimateTime: z.string(),
   completedPercent: z.number(),
   assignId: z.number(),
   priorityId: z.number(),
@@ -92,6 +94,7 @@ export default function AddIssuePage() {
   const { trackers } = useSelector((state: RootState) => state.trackers);
   const { priorities } = useSelector((state: RootState) => state.priorities);
   const { statuses } = useSelector((state: RootState) => state.statuses);
+  const router = useRouter();
 
   const dispatch = useAppDispatch();
 
@@ -123,8 +126,7 @@ export default function AddIssuePage() {
       priorityId: undefined,
       trackerId: undefined,
       statusId: undefined,
-      categoryId: undefined,
-      projectId: undefined,
+      projectId: +projectId,
     },
     resolver: zodResolver(addIssueSchema),
     mode: "onSubmit",
@@ -132,20 +134,27 @@ export default function AddIssuePage() {
   });
 
   const onErrorValidate = (error: any) => {
-    console.log('error validate', error);
-  }
+    console.log("error validate", error);
+  };
 
   const onAddIssue = async (data: IAddIssue) => {
+    console.log("submited");
     const { ...passData } = data;
+    console.log("data", data);
     // setIsAddingUser(true)
     const payload: any = {
       ...passData,
+      estimateTime: +data.estimateTime,
     };
     try {
       const response = await dispatch(createIssueAction(payload)).unwrap();
+      console.log("response", response);
       message.success({
-        content: "Create priority succesfully",
+        content: "Create issue successfully",
       });
+      setTimeout(() => {
+        router.push(`/en/projects/${projectId}/issues`);
+      }, 2000);
     } catch (err) {
       const error = err as BaseResponseError;
       if (error) {
@@ -177,9 +186,9 @@ export default function AddIssuePage() {
 
   return (
     <Providers>
-      <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
+      <main className="flex flex-col bg-[rgb(242, 244, 247)]">
         <Navbar />
-        <div className="mt-20 flex gap-4 h-screen text-sm">
+        <div className="mt-20 flex gap-4 text-sm">
           <div className="basis-1/6">
             <Aside title={EAside.issues} />
           </div>
@@ -188,7 +197,10 @@ export default function AddIssuePage() {
             <h1 className="text-[1.43em] font-medium leading-[1.33] mt-5">
               {t("issues.create_issue")}
             </h1>
-            <form onSubmit={handleSubmit(onAddIssue, onErrorValidate)} className="create-issue-form mt-1 border bg-gray-50 text-[#3e425a] mb-5 p-[15px] rounded-[3px] border-solid border-[#dadce7]">
+            <form
+              onSubmit={handleSubmit(onAddIssue, onErrorValidate)}
+              className="create-issue-form mt-1 border bg-gray-50 text-[#3e425a] mb-5 p-[15px] rounded-[3px] border-solid border-[#dadce7]"
+            >
               <Card className="bg-white p-10 min-h-[600px]">
                 <div>
                   <Controller
@@ -214,9 +226,10 @@ export default function AddIssuePage() {
                             <select
                               id="statuses"
                               className="w-[300px] col-span-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                              onChange={onChange}
+                              onChange={(e) => {
+                                setValue("trackerId", +e.target.value);
+                              }}
                               value={value}
-                              // selected={value}
                             >
                               <option value="" selected></option>
                               {trackers &&
@@ -283,6 +296,17 @@ export default function AddIssuePage() {
                                   />
                                   <HistoryPlugin />
                                   <AutoFocusPlugin />
+                                  {/* <OnChangePlugin onChange={(editorState) => {
+                                        const editorStateJSON = editorState.toJSON();
+
+                                    console.log(JSON.stringify(editorStateJSON))
+                                  }} /> */}
+                                  <HtmlPlugin
+                                    onHtmlChanged={(html) =>
+                                      setValue("input", html)
+                                    }
+                                    // initialHtml="<h1>Test</h1><p>Lorem ipsum dolor sit amet</p>"
+                                  />
                                   {/* <TreeViewPlugin /> */}
                                 </div>
                               </div>
@@ -318,7 +342,9 @@ export default function AddIssuePage() {
                                 <select
                                   id="statuses"
                                   className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                  onChange={onChange}
+                                  onChange={(e) => {
+                                    setValue("statusId", +e.target.value);
+                                  }}
                                   value={value}
                                 >
                                   <option value="" selected></option>
@@ -357,7 +383,9 @@ export default function AddIssuePage() {
                                 <select
                                   id="priorities"
                                   className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                  onChange={onChange}
+                                  onChange={(e) => {
+                                    setValue("priorityId", +e.target.value);
+                                  }}
                                   value={value}
                                 >
                                   <option value="" selected></option>
@@ -397,7 +425,9 @@ export default function AddIssuePage() {
                                 <select
                                   id="assignId"
                                   className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                  onChange={onChange}
+                                  onChange={(e) => {
+                                    setValue("assignId", +e.target.value);
+                                  }}
                                   value={value}
                                 >
                                   <option value="" selected>
@@ -434,13 +464,11 @@ export default function AddIssuePage() {
                                 </label>
                                 <DatePicker
                                   className="border-radius-0.5rem"
-                                  onChange={(a, b) => {
-                                    setValue("startDate", b.toString())
+                                  onChange={(date, dateString) => {
+                                    onChange && onChange(dateString.toString());
                                   }}
-                                    // onChange={(e) => {
-
-                                  value={value}
-                                  allowClear={false}
+                                  value={value ? moment(value as string) : null}
+                                  allowClear={true}
                                   style={{
                                     borderRadius: 5,
                                     height: 38,
@@ -477,9 +505,11 @@ export default function AddIssuePage() {
                                 </label>
                                 <DatePicker
                                   className="border-radius-0.5rem"
-                                  onChange={onChange}
+                                  onChange={(date, dateString) => {
+                                    onChange && onChange(dateString.toString());
+                                  }}
                                   value={value ? moment(value as string) : null}
-                                  allowClear={false}
+                                  allowClear={true}
                                   style={{
                                     borderRadius: 5,
                                     height: 38,
@@ -489,6 +519,50 @@ export default function AddIssuePage() {
                                     borderColor: errors ? "#B91C1C" : "#D9D9D9",
                                   }}
                                 />
+                              </div>
+                            </div>
+                          );
+                        }}
+                      />
+
+                      <Controller
+                        name={"estimateTime"}
+                        control={control}
+                        render={({
+                          field: { value, onChange },
+                          fieldState: { error },
+                        }) => {
+                          return (
+                            <div className="w-full">
+                              <div className="grid  grid-cols-6 gap-3 !mb-5">
+                                <label
+                                  // htmlFor={name || label}
+                                  className={`IssueInput__label  inline-flex items-center text-base sm:w-40 text-dark col-span-1`}
+                                >
+                                  {t("issues.estimateTime")}
+                                  {true && (
+                                    <span className="required text-[#B91C1C] font-bold">
+                                      {" "}
+                                      *
+                                    </span>
+                                  )}
+                                </label>
+                                <div
+                                  className={`Input__field-container w-full relative`}
+                                  // style={{
+                                  //   display: type === "date" ? "inline-grid" : "block",
+                                  // }}
+                                >
+                                  <Input
+                                    size={"large"}
+                                    status={errors ? "error" : undefined}
+                                    name={"estimateTime"}
+                                    type="text"
+                                    onChange={onChange}
+                                    value={value}
+                                    className="Input__field w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                  />
+                                </div>
                               </div>
                             </div>
                           );
@@ -518,7 +592,12 @@ export default function AddIssuePage() {
                                 <select
                                   id="completedPercent"
                                   className="w-[300px] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                  onChange={onChange}
+                                  onChange={(e) => {
+                                    setValue(
+                                      "completedPercent",
+                                      +e.target.value
+                                    );
+                                  }}
                                   value={value}
                                 >
                                   <option value="0" selected>
