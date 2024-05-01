@@ -37,7 +37,7 @@
     "startDate": "Start date",
     "dueDate": "Due date",
     "estimateTime": "Estimate",
-    "output": "output",
+    "output": "Description",
     "assignee": "Assignee",
     "priority": "Priority",
     "tracker": "Tracker",
@@ -46,9 +46,19 @@
     "projectId": "projectId",
     "completedPercent": "% Done",
     "create": "Create",
-    "create_and_add_another": "Create and add another"
+    "create_and_add_another": "Create and add another",
+    "add_new_issue": "Add new issue",
+    "edit_issue": "Edit issue",
+    "update_issue": "Update"
   },
   "error": {
+    "subject_required": "Subject is required",
+    "subject_max_length": "The field needs to be less than 255",
+    "input_required": "Input is required",
+    "input_max_length": "The field needs to be less than 1000",
+    "start_date_required": "Start date is required",
+    "end_date_required": "End date is required",
+    "invalid_completed_percent": "Completed percent is invalid",
     "required": "The field is required",
     "min_length": "The field needs to be at least {{length}}",
     "max_length": "The field needs to be less than {{length}}"

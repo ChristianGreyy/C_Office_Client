@@ -20,7 +20,7 @@ export type TUpdateTrackerData = {
 export type TDeleteTrackerData = Partial<ITrackerDetail> & { isSoft: boolean }
 
 export interface ITrackerDetail {
-  id?: number
+  id: number
   name: string
   slug: string
 }

@@ -22,9 +22,17 @@ export type TDeletePriorityData = Partial<IPriorityDetail> & { isSoft: boolean }
 export interface IPriorityDetail {
   id?: number
   name: string
+  slug?: string
 }
 
 
 export interface IEditPriorityData {
   name?: string
+}
+
+export enum EPrioritySLug {
+  normal = 'normal',
+  low = 'low',
+  high = 'high',
+  urgent = 'urgent',
 }

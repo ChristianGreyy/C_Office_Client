@@ -19,19 +19,21 @@ export interface IFetchIssuesSuccessData {
   limit?: number | string;
 }
 
-export type TUpdateIssueData = {
-  dateTime: Date | string;
-};
+export type TUpdateIssueData = Partial<IIssueDetail>
 
 export type TDeleteIssueData = Partial<IIssueDetail> & { isSoft: boolean };
 
 export interface IIssueDetail {
-  id?: number;
+  id: number;
   name: string;
   tracker: ITrackerDetail;
+  trackerId: number;
   status: IStatusDetail;
+  statusId: number;
   priority: IPriorityDetail;
+  priorityId: number;
   assigner: IUserDetail;
+  assignId: number;
   subject: string;
   estimateTime: number;
   spentTime: number;

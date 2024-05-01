@@ -23,4 +23,11 @@ export const issueManagementAPI = {
       payload
     )
   },
+
+  updateIssueAction: async (id: number, payload: Partial<TUpdateIssueData>) => {
+    return await ApiClient.put<IIssueDetail, Omit<TUpdateIssueData, 'id'>>(
+      `/issues/${id}`,
+      payload
+    )
+  },
 }

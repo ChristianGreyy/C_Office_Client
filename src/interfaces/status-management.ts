@@ -20,7 +20,7 @@ export type TUpdateStatusData = {
 export type TDeleteStatusData = Partial<IStatusDetail> & { isSoft: boolean }
 
 export interface IStatusDetail {
-  id?: number
+  id: number
   name: string
   slug: string
 }

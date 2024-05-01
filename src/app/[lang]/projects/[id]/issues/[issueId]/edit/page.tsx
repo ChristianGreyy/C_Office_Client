@@ -21,6 +21,7 @@ import {
   EStatusSLug,
   ETrackerSLug,
   IAddIssue,
+  TUpdateIssueData,
 } from "@/interfaces";
 import {
   RootState,
@@ -28,8 +29,10 @@ import {
   getAllPrioritiesAction,
   getAllStatusesAction,
   getAllTrackersAction,
+  getIssueByIdAction,
   getMembersForProjectAction,
-  useAppDispatch
+  updateIssueAction,
+  useAppDispatch,
 } from "@/redux";
 import { validateNumber } from "@/utils/number";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -94,17 +97,23 @@ export const addIssueSchema = z.object({
   projectId: z.number(),
 });
 
-export default function AddIssuePage() {
+export default function EditIssuePage() {
   const params = useParams();
   const projectId = params.id;
+  const issueId = params.issueId;
+  const router = useRouter();
+  const { issue } = useSelector((state: RootState) => state.issues);
   const { trackers } = useSelector((state: RootState) => state.trackers);
   const { priorities } = useSelector((state: RootState) => state.priorities);
   const { statuses } = useSelector((state: RootState) => state.statuses);
   const { members } = useSelector((state: RootState) => state.projects);
   const [globalErrors, setGlobalErrors] = useState([]);
-  const router = useRouter();
 
   const dispatch = useAppDispatch();
+
+  const getIssueById = () => {
+    dispatch(getIssueByIdAction(+issueId));
+  };
 
   const getAllOptions = () => {
     dispatch(getAllTrackersAction());
@@ -119,6 +128,7 @@ export default function AddIssuePage() {
   useEffect(() => {
     getAllOptions();
     getMembersForProject();
+    getIssueById();
   }, [dispatch]);
 
   const {
@@ -151,55 +161,55 @@ export default function AddIssuePage() {
   const onErrorValidate = (error: any) => {
     // setGlobalErrors
     console.log(error);
-    const estimateTime = getValues('estimateTime')
+    const estimateTime = getValues("estimateTime");
     if (!validateNumber(estimateTime?.toString())) {
-      error['completed_percent'] = {
-          message: t("error.invalid_completed_percent")
-        }
-      setError('completedPercent', {
+      error["completed_percent"] = {
+        message: t("error.invalid_completed_percent"),
+      };
+      setError("completedPercent", {
         message: "Triple Check This",
-      } )
+      });
     }
     const validateError = Object.values(error).map((item: any) => item.message);
     setGlobalErrors(validateError);
   };
 
-  if (statuses) {
-    const status = statuses.find((item) => item.slug === EStatusSLug.new);
-    setValue("statusId", status?.id);
+  if (issue) {
+    setValue("subject", issue?.subject || undefined);
+    setValue("input", issue?.input || undefined);
+    setValue("startDate", issue?.startDate || undefined);
+    setValue("dueDate", issue?.dueDate || undefined);
+    setValue("estimateTime", issue?.estimateTime?.toString() || undefined);
+    setValue("completedPercent", issue?.completedPercent || 0);
+    setValue("assignId", issue?.assignId || undefined);
+    setValue("priorityId", issue?.priorityId || undefined);
+    setValue("trackerId", issue?.trackerId || undefined);
+    setValue("statusId", issue?.statusId || undefined);
+    console.log(getValues('completedPercent'))
   }
 
-  if (trackers) {
-    const tracker = trackers.find((item) => item.slug === ETrackerSLug.feature);
-    setValue("trackerId", tracker?.id);
-  }
-
-  if (priorities) {
-    const priority = priorities.find(
-      (item) => item.slug === EPrioritySLug.normal
-    );
-    setValue("priorityId", priority?.id);
-  }
-
-  const onAddIssue = async (data: IAddIssue) => {
+  const onAddIssue = async (data: TUpdateIssueData) => {
     const { ...passData } = data;
-    if (!validateNumber(data.estimateTime)) {
+    if (!validateNumber(data.estimateTime?.toString())) {
       setGlobalErrors([...globalErrors, t("error.invalid_completed_percent")]);
       return;
     }
     setGlobalErrors([]);
     const payload: any = {
       ...passData,
+      id: issueId,
       estimateTime: +data.estimateTime,
     };
     try {
-      const response = await dispatch(createIssueAction(payload)).unwrap();
+      const response = await dispatch(
+        updateIssueAction(payload)
+      ).unwrap();
       message.success({
-        content: "Create issue successfully",
+        content: "Update issue successfully",
       });
-      // setTimeout(() => {
-      //   router.push(`/en/projects/${projectId}/issues`);
-      // }, 2000);
+      setTimeout(() => {
+        router.push(`/en/projects/${projectId}/issues/${issueId}`);
+      }, 2000);
     } catch (err) {
       const error = err as BaseResponseError;
       if (error) {
@@ -238,7 +248,6 @@ export default function AddIssuePage() {
             <Aside title={EAside.issues} />
           </div>
           <div className="basis-5/6 px-3 py-4">
-            <SwitchProject />
             <h1 className="text-[1.43em] font-medium leading-[1.33] mt-5">
               {t("issues.create_issue")}
             </h1>
@@ -280,27 +289,14 @@ export default function AddIssuePage() {
                             <select
                               id="trackers"
                               className="w-[300px] col-span-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                              // onChange={(e) => {
-                              //   setValue("trackerId", +e.target.value);
-                              // }}
                               onChange={onChange}
                               value={value}
                             >
                               {trackers &&
                                 trackers.map((item, index) => {
-                                  if (item.slug === ETrackerSLug.feature) {
-                                    return (
-                                      <option selected value={item.id}>
-                                        {item.name}
-                                      </option>
-                                    );
-                                  } else {
-                                    return (
-                                      <option value={item.id}>
-                                        {item.name}
-                                      </option>
-                                    );
-                                  }
+                                  return (
+                                    <option value={item.id}>{item.name}</option>
+                                  );
                                 })}
                             </select>
                           </div>
@@ -349,34 +345,31 @@ export default function AddIssuePage() {
                                 *
                               </span>
                             </label>
-                            <LexicalComposer initialConfig={editorConfig}>
-                              <div className="editor-container">
-                                <ToolbarPlugin />
-                                <div className="editor-inner">
-                                  <RichTextPlugin
-                                    contentEditable={
-                                      <ContentEditable className="editor-input" />
-                                    }
-                                    placeholder={<Placeholder />}
-                                    ErrorBoundary={LexicalErrorBoundary}
-                                  />
-                                  <HistoryPlugin />
-                                  <AutoFocusPlugin />
-                                  {/* <OnChangePlugin onChange={(editorState) => {
-                                        const editorStateJSON = editorState.toJSON();
-
-                                    console.log(JSON.stringify(editorStateJSON))
-                                  }} /> */}
-                                  <HtmlPlugin
-                                    onHtmlChanged={(html) =>
-                                      setValue("input", html)
-                                    }
-                                    // initialHtml="<h1>Test</h1><p>Lorem ipsum dolor sit amet</p>"
-                                  />
-                                  {/* <TreeViewPlugin /> */}
+                            {issue && (
+                              <LexicalComposer initialConfig={editorConfig}>
+                                <div className="editor-container">
+                                  <ToolbarPlugin />
+                                  <div className="editor-inner">
+                                    <RichTextPlugin
+                                      contentEditable={
+                                        <ContentEditable className="editor-input" />
+                                      }
+                                      placeholder={<Placeholder />}
+                                      ErrorBoundary={LexicalErrorBoundary}
+                                    />
+                                    <HistoryPlugin />
+                                    <AutoFocusPlugin />
+                                    <HtmlPlugin
+                                      onHtmlChanged={(html) =>
+                                        setValue("input", html)
+                                      }
+                                      initialHtml={value}
+                                      isEdit={true}
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            </LexicalComposer>
+                              </LexicalComposer>
+                            )}
                           </div>
                         </div>
                       );
@@ -416,19 +409,11 @@ export default function AddIssuePage() {
                                   <option value="" selected></option>
                                   {statuses &&
                                     statuses.map((item) => {
-                                      if (item.slug === EStatusSLug.new) {
-                                        return (
-                                          <option selected value={item.id}>
-                                            {item.name}
-                                          </option>
-                                        );
-                                      } else {
-                                        return (
-                                          <option value={item.id}>
-                                            {item.name}
-                                          </option>
-                                        );
-                                      }
+                                      return (
+                                        <option value={item.id}>
+                                          {item.name}
+                                        </option>
+                                      );
                                     })}
                                 </select>
                               </div>
@@ -467,19 +452,11 @@ export default function AddIssuePage() {
                                   <option value="" selected></option>
                                   {priorities &&
                                     priorities.map((item) => {
-                                      if (item.slug === EPrioritySLug.normal) {
-                                        return (
-                                          <option selected value={item.id}>
-                                            {item.name}
-                                          </option>
-                                        );
-                                      } else {
-                                        return (
-                                          <option value={item.id}>
-                                            {item.name}
-                                          </option>
-                                        );
-                                      }
+                                      return (
+                                        <option value={item.id}>
+                                          {item.name}
+                                        </option>
+                                      );
                                     })}
                                 </select>
                               </div>
@@ -762,18 +739,7 @@ export default function AddIssuePage() {
                     className="w-full text-white bg-sky-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-600 dark:hover:bg-sky-700 dark:focus:ring-primary-800"
                     // loading={isLoading}
                   >
-                    {t("issues.create")}
-                  </Button>
-
-                  <Button
-                    htmlType="submit"
-                    type="primary"
-                    size="large"
-                    // className="submit__btn login-btn"
-                    className="w-full text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-primary-800"
-                    // loading={isLoading}
-                  >
-                    {t("issues.create_and_add_another")}
+                    {t("issues.update_issue")}
                   </Button>
                 </div>
               </Card>

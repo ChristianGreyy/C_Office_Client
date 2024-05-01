@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import Providers from "@/components/Providers";
 import SwitchProject from "@/components/SwitchProject";
+import { EAside } from "@/enum";
 import {
   RootState,
   getAllIssuesAction,
@@ -18,10 +19,10 @@ import {
   getAllTrackersAction,
   useAppDispatch,
 } from "@/redux";
+import { t } from "i18next";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
-import { EAside } from "@/enum";
 
 export default function IssuesPage() {
   const { issues } = useSelector((state: RootState) => state.issues);
@@ -62,7 +63,7 @@ export default function IssuesPage() {
                 <Link
                   href={`/en/projects/${projectId}/issues/add-issue`}
                 >
-                  Add new issue
+                  {t('issues.add_new_issue')}
                 </Link>
               </div>
             </div>

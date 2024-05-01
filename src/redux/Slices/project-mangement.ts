@@ -77,7 +77,7 @@ const projectsSlice = createSlice({
       state.loadings[`getMembersForProjectAction`] = true;
     });
     builder.addCase(getMembersForProjectAction.fulfilled, (state, action) => {
-      // state.members = action.payload ?? {}
+      state.members = action.payload ?? {};
       state.membersLayout = action?.payload?.reduce((acc, item) => {
         acc[item.role] = acc[item.role]
           ? [...acc[item.role], item.user]

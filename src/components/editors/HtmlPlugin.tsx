@@ -7,17 +7,26 @@ import { $insertNodes } from "lexical";
 interface Props {
   initialHtml?: string;
   onHtmlChanged: (html: string) => void;
+  isEdit?: boolean;
 }
 
-const HtmlPlugin = ({ initialHtml, onHtmlChanged }: Props) => {
+const HtmlPlugin = ({ initialHtml, onHtmlChanged, isEdit }: Props) => {
   const [editor] = useLexicalComposerContext();
 
   const [isFirstRender, setIsFirstRender] = useState(true);
-
   useEffect(() => {
+    console.log('initialHtml', initialHtml)
+    console.log('isFirstRender', isFirstRender)
     if (!initialHtml || !isFirstRender) return;
 
-    setIsFirstRender(false);
+    if(isEdit && !initialHtml) {
+      setIsFirstRender(true);
+    } else if(isEdit && initialHtml) {
+      setIsFirstRender(false);
+    } else {
+      setIsFirstRender(false);
+    }
+
 
     editor.update(() => {
       const parser = new DOMParser();
@@ -25,7 +34,7 @@ const HtmlPlugin = ({ initialHtml, onHtmlChanged }: Props) => {
       const nodes = $generateNodesFromDOM(editor, dom);
       $insertNodes(nodes);
     });
-  }, []);
+  }, [initialHtml]);
 
   return (
     <OnChangePlugin
