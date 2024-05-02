@@ -21,10 +21,28 @@ export interface IUserDetail {
   firstName?: string
   lastName?: string
   email?: string
+  phone?: string
+  gender?: string
+  positionId?: number
+  universityId?: number
+  levelId?: number
+  avatarId?: number
+  avatar?: IAvatarDetail 
   createdAt?: string
+}
+
+export interface IAvatarDetail {
+  id?: number
+  url?: string
 }
 
 
 export interface IEditUserData {
-  dateTime?: string
+  firstName?: string
+  lastName?: string
+  phone?: string
+  gender?: string
+  positionId?: number
+  universityId?: number
+  levelId?: number
 }

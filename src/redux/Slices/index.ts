@@ -6,15 +6,20 @@ import { combineReducers } from 'redux'
 import authReducer from './auth'
 import employeeAttendanceReducer from './employee-attendance-management'
 import issueReducer from './issue-management'
+import levelReducer from './level-management'
+import positionReducer from './position-management'
 import priorityReducer from './priority-management'
 import projectReducer from './project-mangement'
 import statusReducer from './status-management'
 import toastReducer from './toast'
 import trackerReducer from './tracker-management'
+import universityReducer from './university-management'
 
 export * from './auth'
 export * from './employee-attendance-management'
 export * from './issue-management'
+export * from './level-management'
+export * from './position-management'
 export * from './priority-management'
 export * from './project-mangement'
 export * from './status-management'
@@ -29,7 +34,10 @@ const productReducer = combineReducers({
   issues: issueReducer,
   statuses: statusReducer,
   trackers: trackerReducer,
-  priorities: priorityReducer
+  priorities: priorityReducer,
+  universities: universityReducer,
+  positions: positionReducer,
+  levels: levelReducer,
 })
   
 export type RootState = ReturnType<typeof productReducer>

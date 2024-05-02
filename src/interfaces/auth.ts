@@ -1,8 +1,8 @@
+import { IUserDetail } from "."
+
 export interface ILoginSuccessData {
   accessToken: string,
-  data: {
-    email: string
-  }
+  user: IUserDetail
 }
 
 export interface ILoginFields {

@@ -26,7 +26,8 @@
     "projects": "Projects",
     "hrm": "HRM",
     "request": "Request",
-    "people": "People"
+    "people": "People",
+    "my_profile": "My profile"
   },
   "log_in": "Login",
   "COffice": "COffice Software",
@@ -50,6 +51,18 @@
     "add_new_issue": "Add new issue",
     "edit_issue": "Edit issue",
     "update_issue": "Update"
+  },
+  "profile": {
+    "title": "Profile information",
+    "update_profile": "Update profile",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "phone": "Phone number",
+    "gender": "Gender",
+    "position": "Position",
+    "university": "University",
+    "level": "Level"
   },
   "error": {
     "subject_required": "Subject is required",

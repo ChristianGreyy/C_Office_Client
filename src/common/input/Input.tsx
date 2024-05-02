@@ -200,7 +200,6 @@ const InputStyled = styled('div')<{ $isDisableShadow?: boolean }>`
     }
     .ant-input {
       border-radius: 0.375rem;
-      border-color: rgb(var(--color-slate-200) / var(--tw-border-opacity));
       font-size: 0.875rem;
       line-height: 1.25rem;
       background-color: #fff;

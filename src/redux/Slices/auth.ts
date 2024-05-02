@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-import { IMerchantInfo } from '@interfaces'
 import { RootState } from '.'
 import {
   forgotPasswordAction,
@@ -8,10 +7,12 @@ import {
   resetPasswordAction,
   verifyPasswordAction,
 } from '../actions/auth'
+import { IUserDetail } from '@/interfaces'
+import { updateProfileAction } from '../actions/user-management'
 
 interface IAuth {
   accessToken?: string
-  accountInfo?: IMerchantInfo
+  accountInfo?: IUserDetail,
   forgotEmail?: string
   code?: string
   loadings: Record<string, boolean | undefined>
@@ -43,6 +44,7 @@ const authSlice = createSlice({
     builder.addCase(loginAction.fulfilled, (state, action) => {
       state.loadings[`loginActionLoading`] = false
       state.accessToken = action.payload?.data.accessToken
+      state.accountInfo = action.payload?.data.user;
     })
     builder.addCase(loginAction.rejected, (state) => {
       state.loadings[`loginActionLoading`] = false
@@ -82,6 +84,20 @@ const authSlice = createSlice({
     builder.addCase(resetPasswordAction.rejected, (state) => {
       state.loadings[`resetPasswordActionLoading`] = false
     })
+
+    builder.addCase(updateProfileAction.pending, (state) => {
+      state.loadings[`updateProfileActionLoading`] = true
+    })
+    builder.addCase(updateProfileAction.fulfilled, (state, action) => {
+      state.loadings[`updateProfileActionLoading`] = false
+      console.log('action.payload', action.payload)
+      state.accountInfo = action.payload;
+    })
+    builder.addCase(updateProfileAction.rejected, (state) => {
+      state.loadings[`updateProfileActionLoading`] = false
+      state.accessToken = ''
+    })
+    
   },
 })
 
