@@ -21,16 +21,17 @@ import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 import { capitalizeFirstLetter } from "@/utils";
 import { EAside, ENavbar } from "@/enum";
+import { useClientTranslation } from "@/i18n/client";
 
 export default function ProjectDetailPage() {
   const [feature, setFeature] = useState<IIssueDetail[]>([]);
+  const { t } = useClientTranslation("Common");
 
   const params = useParams();
   const projectId = params.id;
   const dispatch = useAppDispatch();
-  const { project, members, membersLayout, loadings } = useSelector(
-    (state: RootState) => state.projects
-  );
+  const { projectStatistic, members, membersLayout, loadings, project } =
+    useSelector((state: RootState) => state.projects);
 
   const getProjectById = () => {
     dispatch(getProjectByIdAction(+projectId));
@@ -49,9 +50,9 @@ export default function ProjectDetailPage() {
   }, [dispatch]);
 
   return (
-    <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
+    <main className="flex min-h-max flex-col bg-[rgb(242, 244, 247)]">
       <Navbar />
-      <div className="mt-20 flex gap-4 h-screen">
+      <div className="mt-20 flex gap-4 h-max">
         <div className="basis-1/6">
           <Aside title={EAside.overview} />
         </div>
@@ -59,92 +60,101 @@ export default function ProjectDetailPage() {
           <SwitchProject />
           <div className="project-information mt-8">
             <h1 className="text-[1.43em] font-medium leading-[1.33] mt-0 mb-5">
-              Overview
+              {t("project.overview")}
             </h1>
             <ul className="list-disc pl-4">
               <li>
-                Kickoff Date:{" "}
-                {project && project.kickOffDate ? moment(project.kickOffDate).format("DD/MM/YYYY") : ''}
+                {t("project.kickoff_date")}:{" "}
+                {project && project.kickOffDate
+                  ? moment(project.kickOffDate).format("DD/MM/YYYY")
+                  : ""}
               </li>
               <li>
-                Deadline:{" "}
-                {project && project.kickOffDate ? moment(project.kickOffDate).format("DD/MM/YYYY") : ''}
+                {t("project.deadline")}:{" "}
+                {project && project.kickOffDate
+                  ? moment(project.kickOffDate).format("DD/MM/YYYY")
+                  : ""}
               </li>
             </ul>
           </div>
-          <div className="project-detail-statistic mt-4 border bg-gray-50 text-[#3e425a] mb-5 p-[15px] rounded-[3px] border-solid border-[#dadce7]">
+          <div className="projectStatistic-detail-statistic mt-4 border bg-gray-50 text-[#3e425a] mb-5 p-[15px] rounded-[3px] border-solid border-[#dadce7]">
             <h1 className="text-[1.14em] font-medium leading-[1.33] mt-0 mb-[20px]">
-              Issue tracking
+              {t("project.issue_tracking")}
             </h1>
             <table className="table-auto w-full">
               <thead className="uppercase">
                 <tr className="leading-10 border-b">
                   <th className="text-center"></th>
-                  <th className="text-center">Open</th>
-                  <th className="text-center">Closed</th>
-                  <th className="text-center">Total</th>
+                  <th className="text-center">{t("project.open")}</th>
+                  <th className="text-center">{t("project.closed")}</th>
+                  <th className="text-center">{t("project.total")}</th>
                 </tr>
               </thead>
-              {project && (
+              {projectStatistic && (
                 <tbody>
                   <tr className="border-b leading-10">
                     <td className="text-left">Feature</td>
                     <td className="text-center">
-                      {project.feature?.open ?? 0}
+                      {projectStatistic.feature?.open ?? 0}
                     </td>
                     <td className="text-center">
-                      {project.feature?.closed ?? 0}
+                      {projectStatistic.feature?.closed ?? 0}
                     </td>
                     <td className="text-center">
-                      {(project.feature?.open ?? 0) +
-                        (project.feature?.closed ?? 0)}
+                      {(projectStatistic.feature?.open ?? 0) +
+                        (projectStatistic.feature?.closed ?? 0)}
                     </td>
                   </tr>
                   <tr className="border-b leading-10">
                     <td className="text-left">Bug</td>
-                    <td className="text-center">{project.bug?.open ?? 0}</td>
-                    <td className="text-center">{project.bug?.closed ?? 0}</td>
                     <td className="text-center">
-                      {(project.bug?.open ?? 0) + (project.bug?.closed ?? 0)}
+                      {projectStatistic.bug?.open ?? 0}
+                    </td>
+                    <td className="text-center">
+                      {projectStatistic.bug?.closed ?? 0}
+                    </td>
+                    <td className="text-center">
+                      {(projectStatistic.bug?.open ?? 0) +
+                        (projectStatistic.bug?.closed ?? 0)}
                     </td>
                   </tr>
                   <tr className="border-b leading-10">
                     <td className="text-left">Test case</td>
                     <td className="text-center">
-                      {project.test_case?.open ?? 0}
+                      {projectStatistic.test_case?.open ?? 0}
                     </td>
                     <td className="text-center">
-                      {project.test_case?.closed ?? 0}
+                      {projectStatistic.test_case?.closed ?? 0}
                     </td>
                     <td className="text-center">
-                      {(project.test_case?.open ?? 0) +
-                        (project.test_case?.closed ?? 0)}
+                      {(projectStatistic.test_case?.open ?? 0) +
+                        (projectStatistic.test_case?.closed ?? 0)}
                     </td>
                   </tr>
                   <tr className="border-b leading-10">
                     <td className="text-left">Support</td>
                     <td className="text-center">
-                      {project.support?.open ?? 0}
+                      {projectStatistic.support?.open ?? 0}
                     </td>
                     <td className="text-center">
-                      {project.support?.closed ?? 0}
+                      {projectStatistic.support?.closed ?? 0}
                     </td>
                     <td className="text-center">
-                      {(project.support?.open ?? 0) +
-                        (project.support?.closed ?? 0)}
+                      {(projectStatistic.support?.open ?? 0) +
+                        (projectStatistic.support?.closed ?? 0)}
                     </td>
                   </tr>
                   <tr className="border-b leading-10">
                     <td className="text-left">Meeting</td>
                     <td className="text-center">
-                      {project.meeting?.open ?? 0}
+                      {projectStatistic.meeting?.open ?? 0}
                     </td>
                     <td className="text-center">
-                      {project.meeting?.closed ?? 0}
+                      {projectStatistic.meeting?.closed ?? 0}
                     </td>
                     <td className="text-center">
-                      {(project.meeting?.open ?? 0) +
-                        (project.meeting?.closed ?? 0)}
+                      {(projectStatistic.meeting?.open ?? 0) +
+                        (projectStatistic.meeting?.closed ?? 0)}
                     </td>
                   </tr>
                 </tbody>
@@ -156,7 +166,7 @@ export default function ProjectDetailPage() {
               Time tracking
             </h1>
             <ul className="list-disc pl-4">
-              <li>Estimated time: 2819:02 hours</li>
+              <li>Estimated time: {project?.sp} hours</li>
               <li>Spent time: 3053:07 hours</li>
             </ul>
           </div>
@@ -174,16 +184,14 @@ export default function ProjectDetailPage() {
                       {capitalizeFirstLetter(item)}:
                     </div>
                     <div className="project-detail-statistic__member">
-                      {
-                        membersLayout[item].map(item => (
-                          <Link
-                            href={`/${item.id}`}
-                            className="text-ss font-semibold text-cyan-600 md:text-sm pl-2"
-                          >
-                            {item.firstName} {item.lastName}
-                          </Link>
-                        ))
-                      }
+                      {membersLayout[item].map((item) => (
+                        <Link
+                          href={`/${item.id}`}
+                          className="text-ss font-semibold text-cyan-600 md:text-sm pl-2"
+                        >
+                          {item.firstName} {item.lastName}
+                        </Link>
+                      ))}
                     </div>
                   </li>
                 ))}
@@ -191,7 +199,6 @@ export default function ProjectDetailPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </main>
   );
 }

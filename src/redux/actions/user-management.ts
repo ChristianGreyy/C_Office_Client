@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { userManagementAPI } from "@/api";
 import { INITIAL_PAGINATION_SiZE } from "@/configs";
-import { IUserDetail } from "@/interfaces";
+import { IFetchUsersParams, IUserDetail } from "@/interfaces";
 
 export const updateProfileAction = createAsyncThunk(
   "universities/updateProfileAction",
@@ -14,6 +14,35 @@ export const updateProfileAction = createAsyncThunk(
         return rejectWithValue(res);
       } 
         return fulfillWithValue(res.data)
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+export const getAllUsersAction = createAsyncThunk(
+  "users/getAllUsersAction",
+  async (params: IFetchUsersParams | undefined) => {
+    try {
+      const localParams = params
+        ? params
+        : {
+            page: 1,
+            limit: INITIAL_PAGINATION_SiZE,
+          };
+      const res = await userManagementAPI.getAllUsersAction(localParams);
+      return res.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+);
+
+export const getProfileAction = createAsyncThunk(
+  "users/getProfileAction",
+  async () => {
+    try {
+      const res = await userManagementAPI.getProfileAction();
+      return res.data;
     } catch (error) {
       throw error;
     }

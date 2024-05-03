@@ -11,10 +11,15 @@ import Link from "next/link";
 import { useSelector } from "react-redux";
 import { RootState, getAllProjectsAction, useAppDispatch } from "@/redux";
 import { EStatusSLug, IProjectDetail } from "@/interfaces";
+import Cookies from 'js-cookie'
+import { useClientTranslation } from "@/i18n/client";
+import { LANGUAGE } from "@/configs";
 
 export default function LogTime() {
   const [search, setSearch] = useState("");
   const { projects } = useSelector((state: RootState) => state.projects);
+  const { t } = useClientTranslation("Common");
+  const language = Cookies.get(LANGUAGE) ?? 'en';
 
   const dispatch = useAppDispatch();
 
@@ -32,13 +37,15 @@ export default function LogTime() {
 
   const handleCalculatePercentDonePartTotal = (
     project: IProjectDetail, status: string
-  ): number => {
+  ): string => {
     if (project.issues && project.issues.length > 0) {
-      const issues = project.issues?.map((item) => {
+      const issues = project.issues?.filter((item) => {
         return item.status?.slug === status;
       });
       const issuesNumber = issues?.length || 0;
-      return (issuesNumber / project.issues?.length) * 100;
+      const num = (issuesNumber / project.issues?.length) * 100;
+      return (Math.round(num * 100) / 100).toFixed(2);
+
     } else {
       return 0;
     }
@@ -64,18 +71,21 @@ export default function LogTime() {
               <input
                 value={search}
                 type="text"
-                placeholder="Search for the tool you like"
+                placeholder={t("projects.search")}
                 className="w-full md:w-80 px-3 h-10 rounded-l border-2 border-sky-500 focus:outline-none focus:border-sky-500"
                 onChange={(e) => setSearch(e.target.value)}
               />
               <button
                 type="submit"
-                className="bg-sky-500 text-white rounded-r px-2 md:px-3 py-0 md:py-1 h-10"
+                className="text-white rounded-r px-2 md:px-3 py-0 md:py-1 h-10"
+                style={{
+                  backgroundColor: 'rgb(2 132 199)'
+                }}
               >
-                Search
+                {t("projects.search_button")}
               </button>
             </div>
-            <select
+            {/* <select
               id="pricingType"
               name="pricingType"
               className="w-full h-10 border-2 border-sky-500 focus:outline-none focus:border-sky-500 text-sky-500 rounded px-2 md:px-3 py-0 md:py-1 tracking-wider"
@@ -86,14 +96,14 @@ export default function LogTime() {
               <option value="Freemium">Freemium</option>
               <option value="Free">Free</option>
               <option value="Paid">Paid</option>
-            </select>
+            </select> */}
           </form>
           <div className="container flex gap-3 h-max mt-10">
             {projects &&
               projects.map((item) => (
                 <div className="basis-1/4 bg-white p-3">
                   <Link
-                    href={`/en/projects/${item.id}`}
+                    href={`/${language}/projects/${item.id}`}
                     className="text-ss font-semibold uppercase text-cyan-600 md:text-xl"
                   >
                     {item.name}
@@ -101,7 +111,7 @@ export default function LogTime() {
                   <div className="mt-3">
                     <div className="flex justify-between mb-1">
                       <span className="text-base font-medium text-blue-700">
-                        Done / Total
+                      {t("projects.done")} / {t("projects.total")}
                       </span>
                       <span className="text-sm font-medium text-blue-700">
                         {handleCalculatePercentDonePartTotal(item, EStatusSLug.resolved)}%
@@ -110,14 +120,14 @@ export default function LogTime() {
                     <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: `${handleCalculatePercentDonePartTotal(item, EStatusSLug.resolved)}` }}
+                        style={{ width: `${handleCalculatePercentDonePartTotal(item, EStatusSLug.resolved)}%` }}
                       ></div>
                     </div>
                   </div>
                   <div className="mt-3">
                     <div className="flex justify-between mb-1">
                       <span className="text-base font-medium text-blue-700">
-                        Closed / Total
+                      {t("projects.closed")} / {t("projects.total")}
                       </span>
                       <span className="text-sm font-medium text-blue-700">
                         {handleCalculatePercentDonePartTotal(item, EStatusSLug.closed)}%
@@ -126,7 +136,7 @@ export default function LogTime() {
                     <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
                       <div
                         className="bg-blue-600 h-2.5 rounded-full"
-                        style={{ width: `${handleCalculatePercentDonePartTotal(item, EStatusSLug.closed)}` }}
+                        style={{ width: `${handleCalculatePercentDonePartTotal(item, EStatusSLug.closed)}%` }}
                       ></div>
                     </div>
                   </div>
@@ -134,7 +144,6 @@ export default function LogTime() {
               ))}
           </div>
         </div>
-        <Footer />
       </main>
     </Providers>
   );

@@ -46,14 +46,16 @@ import { useParams, useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { z } from "zod";
+import Cookies from 'js-cookie'
+import { LANGUAGE } from "@/configs";
 
 export const addIssueSchema = z.object({
   subject: z
     .string()
     .trim()
-    .max(30, {
+    .max(1000, {
       message: t("error.subject_max_length", {
-        length: 30,
+        length: 1000,
       }) as string,
     })
     .nonempty({
@@ -103,6 +105,7 @@ export default function AddIssuePage() {
   const { members } = useSelector((state: RootState) => state.projects);
   const [globalErrors, setGlobalErrors] = useState([]);
   const router = useRouter();
+  const language = Cookies.get(LANGUAGE) ?? 'en';
 
   const dispatch = useAppDispatch();
 
@@ -197,6 +200,7 @@ export default function AddIssuePage() {
       message.success({
         content: "Create issue successfully",
       });
+      router.push(`/${language}/projects/${projectId}/issues`);
       // setTimeout(() => {
       //   router.push(`/en/projects/${projectId}/issues`);
       // }, 2000);
@@ -249,8 +253,8 @@ export default function AddIssuePage() {
               {globalErrors && globalErrors.length > 0 && (
                 <>
                   <div className="bg-rose-600 p-5 text-white  mb-4">
-                    {globalErrors.map((item) => (
-                      <div>{item}</div>
+                    {globalErrors.map((item, index) => (
+                      <div key={index}>{item}</div>
                     ))}
                   </div>
                 </>
@@ -280,10 +284,10 @@ export default function AddIssuePage() {
                             <select
                               id="trackers"
                               className="w-[300px] col-span-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                              // onChange={(e) => {
-                              //   setValue("trackerId", +e.target.value);
-                              // }}
-                              onChange={onChange}
+                              onChange={(e) => {
+                                setValue("trackerId", +e.target.value);
+                              }}
+                              // onChange={onChange}
                               value={value}
                             >
                               {trackers &&

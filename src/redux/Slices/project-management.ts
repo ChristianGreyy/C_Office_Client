@@ -11,6 +11,7 @@ interface IProjectsState {
   project: IProjectDetail | null;
   members: IProjectMember[] | null;
   membersLayout: IProjectMemberLayout | null;
+  projectStatistic: any;
   projectsCurrentPage: string | number;
   projectsTotalPage: string | number;
   projectsTotalItems: string | number;
@@ -22,6 +23,7 @@ interface IProjectsState {
 const initialState: IProjectsState = {
   projects: [],
   project: null,
+  projectStatistic: null,
   membersLayout: {},
   projectsCurrentPage: 0,
   projectsTotalPage: 0,
@@ -53,18 +55,18 @@ const projectsSlice = createSlice({
     });
     builder.addCase(getProjectByIdAction.fulfilled, (state, action) => {
       state.loadings[`getProjectByIdAction`] = false;
-      // state.project = action.payload ?? {}
-      state.project = action?.payload?.issues?.reduce((acc, item) => {
-        if (!acc[item.tracker.name]) {
-          acc[item.tracker.name] = {
+      state.project = action.payload ?? {}
+      state.projectStatistic = action?.payload?.issues?.reduce((acc, item) => {
+        if (!acc[item.tracker?.slug]) {
+          acc[item.tracker?.slug] = {
             closed: 0,
             open: 0,
           };
         }
-        if (item.status.name === EStatusSLug.closed) {
-          acc[item.tracker.name]["closed"]++;
+        if (item.status?.slug === EStatusSLug.closed) {
+          acc[item.tracker?.slug]["closed"]++;
         } else {
-          acc[item.tracker.name]["open"]++;
+          acc[item.tracker?.slug]["open"]++;
         }
         return acc;
       }, {});

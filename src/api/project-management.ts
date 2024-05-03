@@ -1,4 +1,5 @@
 import {
+  IEditProject,
   IFetchProjectsParams,
   IFetchProjectsSuccessData,
   IProjectDetail,
@@ -26,6 +27,13 @@ export const projectManagementAPI = {
   createProjectAction: async (payload: Partial<TUpdateProjectData>) => {
     return await ApiClient.post<IProjectDetail, Omit<TUpdateProjectData, 'id'>>(
       `/projects`,
+      payload
+    )
+  },
+
+  updateProjectAction: async (id: number, payload: Partial<IEditProject>) => {
+    return await ApiClient.put<IProjectDetail, Omit<IEditProject, 'id'>>(
+      `/projects/${id}`,
       payload
     )
   },

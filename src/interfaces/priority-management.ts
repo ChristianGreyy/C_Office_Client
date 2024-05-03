@@ -36,3 +36,4 @@ export enum EPrioritySLug {
   high = 'high',
   urgent = 'urgent',
 }
+

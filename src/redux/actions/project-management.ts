@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 
 import { projectManagementAPI } from '@/api'
 import { INITIAL_PAGINATION_SiZE } from '@/configs'
-import { IFetchProjectsParams, TUpdateProjectData } from '@/interfaces'
+import { IEditProject, IFetchProjectsParams, TUpdateProjectData } from '@/interfaces'
 
 export const getAllProjectsAction = createAsyncThunk(
   'projects/getAllProjectsAction',
@@ -60,3 +60,22 @@ export const createProjectAction = createAsyncThunk(
     }
   }
 )
+
+export const updateProjectAction = createAsyncThunk(
+  "issues/updateProjectAction",
+  async (
+    payload: Partial<IEditProject>,
+    { fulfillWithValue, rejectWithValue }
+  ) => {
+    try {
+      const { id, ...passPayload } = payload;
+      const res = await projectManagementAPI.updateProjectAction(id, passPayload);
+      if (res.statusCode !== 200) {
+        return rejectWithValue(res);
+      }
+      return fulfillWithValue(res.data);
+    } catch (error) {
+      throw error;
+    }
+  }
+);

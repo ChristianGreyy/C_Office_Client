@@ -6,31 +6,28 @@ import { useEffect, useState } from "react";
 import Clock from "react-clock";
 import "react-clock/dist/Clock.css";
 
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import Providers from "@/components/Providers";
-import { Button, SharedTable } from "@/common";
-import {
-  getAllEmployeeAttendancesAction,
-  getCurrentEmployeeAttendanceByProfileAction,
-} from "@/redux/actions/employee-attendance-management";
-import { useDispatch, useSelector } from "react-redux";
+import { Button } from "@/common";
+import { TUpdateEmployeeAttendanceData } from "@/interfaces";
 import {
   RootState,
   createEmployeeAttendanceAction,
   useAppDispatch,
 } from "@/redux";
+import {
+  getAllEmployeeAttendancesAction,
+  getCurrentEmployeeAttendanceByProfileAction,
+} from "@/redux/actions/employee-attendance-management";
 import { message } from "antd";
-import { TUpdateEmployeeAttendanceData } from "@/interfaces";
+import { useSelector } from "react-redux";
+import { useClientTranslation } from "@/i18n/client";
 
 export default function LogTime() {
   const [value, setValue] = useState(new Date());
+  const { t } = useClientTranslation("Common");
 
   const { employeeAttendances, employeeAttendance } = useSelector(
     (state: RootState) => state.employeeAttendances
   );
-
-  console.log("employeeAttendance", employeeAttendance);
 
   const dispatch = useAppDispatch();
 
@@ -59,6 +56,7 @@ export default function LogTime() {
       });
 
       getAllEmployeeAttendances();
+      getAllEmployeeAttendanceByProfile();
     } catch (error: any) {
       message.error(error.message);
     } finally {
@@ -80,12 +78,11 @@ export default function LogTime() {
   }, []);
 
   return (
-    <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
-      <Navbar />
+    <>
       <div className="container mx-auto p-10 mt-20 flex gap-3 h-screen">
         <div className="flex basis-3/5 flex-col items-center p-8 bg-white">
           <div>
-            <p>Current time:</p>
+            <p>{t("log_time.current_time")}:</p>
           </div>
           <h1 className="mb-5 mt-5 text-5xl font-bold">
             {moment(value).format("LTS")}
@@ -97,7 +94,7 @@ export default function LogTime() {
             id=""
             cols="40"
             rows="5"
-            placeholder="note"
+            placeholder={t("log_time.note")}
           ></textarea>
           <div className="log-time-button mt-10 flex justify-between">
             <div className="check-in-button">
@@ -131,8 +128,9 @@ export default function LogTime() {
               )}
               {employeeAttendance && employeeAttendance.checkOutTime && (
                 <button
-                  className="bg-slate-200 bg-orange-600 mr-8 border-0 text-black !font-bold py-2 px-4 rounded"
-                  disabled
+                  className="bg-orange-600 mr-8 border-0 text-white !font-bold py-2 px-4 rounded"
+                  onClick={solveUpdateEmployeeAttendance}
+                  // disabled
                 >
                   {moment(employeeAttendance.checkOutTime).format("h:mm")}
                 </button>
@@ -144,7 +142,7 @@ export default function LogTime() {
           <table className="table-auto w-full">
             <thead className="uppercase">
               <tr className="leading-10 border-b">
-                <th className="text-left w-max">Full name</th>
+                <th className="text-left w-max">{t("log_time.full_name")}</th>
                 <th className="text-left">Check-in</th>
                 <th className="text-left">Check-out</th>
               </tr>
@@ -172,7 +170,6 @@ export default function LogTime() {
           </table>
         </div>
       </div>
-      <Footer />
-    </main>
+    </>
   );
 }

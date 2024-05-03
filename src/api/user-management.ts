@@ -1,4 +1,6 @@
 import {
+  IFetchUsersParams,
+  IFetchUsersSuccessData,
   IUserDetail,
   TUpdateUserData
 } from '@/interfaces'
@@ -10,5 +12,13 @@ export const userManagementAPI = {
       `/users/profile`,
       payload
     )
+  },
+  getAllUsersAction: async (params?: IFetchUsersParams) => {
+    return await ApiClient.get<IFetchUsersSuccessData>('/users', {
+      params,
+    })
+  },
+  getProfileAction: async () => {
+    return await ApiClient.get<IUserDetail>('/users/profile');
   },
 }

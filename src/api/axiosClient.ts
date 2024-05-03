@@ -15,7 +15,7 @@ import queryString from "query-string";
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 const axiosClient = axios.create({
-  baseURL: "http://localhost:8081" || process.env.REACT_APP_API_URL,
+  baseURL: "http://localhost:8080" || process.env.REACT_APP_API_URL,
 
   headers: {
     "Content-Type": "application/json",

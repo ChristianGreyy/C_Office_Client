@@ -10,6 +10,7 @@ export interface IFetchIssuesParams extends IGetParams {
   statusId?: string;
   priorityId?: string;
   trackerId?: string;
+  projectId?: string;
 }
 
 export interface IFetchIssuesSuccessData {
@@ -34,6 +35,8 @@ export interface IIssueDetail {
   priorityId: number;
   assigner: IUserDetail;
   assignId: number;
+  creator: IUserDetail;
+  creatorId: number;
   subject: string;
   estimateTime: number;
   spentTime: number;
@@ -41,11 +44,32 @@ export interface IIssueDetail {
   dueDate: Date;
   completedPercent: number;
   input: string;
-  output: string;
+  output: IOutputDetail[];
 }
 
-export interface IEditIssueData {
-  name?: string;
+export interface IOutputDetail {
+  userId: number; 
+  user: IUserDetail;
+  issueId: number;
+  issue: IIssueDetail;
+  comment: string;
+  createdAt?: string;
+}
+
+export interface IEditIssue {
+  subject?: string;
+  input?: string;
+  startDate?: string;
+  dueDate?: string;
+  estimateTime?: number;
+  completedPercent?: number;
+  assignId?: number;
+  priorityId?: number;
+  trackerId?: number;
+  statusId?: number;
+  categoryId?: number;
+  projectId?: number;
+  output?: string;
 }
 
 export interface IAddIssue {

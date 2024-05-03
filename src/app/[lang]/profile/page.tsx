@@ -94,7 +94,6 @@ export default function ProfilePage() {
   const { members } = useSelector((state: RootState) => state.projects);
   const { accountInfo } = useSelector((state: RootState) => state.auth);
   const [globalErrors, setGlobalErrors] = useState([]);
-  console.log('accountInfo', accountInfo)
   const [source, setSource] = useState(accountInfo?.avatar?.url);
   const {
     control,
@@ -169,9 +168,6 @@ export default function ProfilePage() {
     const payload: any = {
       ...passData,
     };
-    console.log(getValues());
-    console.log(getValues("avatarId"));
-    console.log(payload);
     try {
       const response = await dispatch(updateProfileAction(payload)).unwrap();
       message.success({
@@ -250,9 +246,12 @@ export default function ProfilePage() {
         className="container mx-auto p-10 mt-20 flex"
       >
         <div className="flex basis-1/5 flex-col items-center p-8">
-          <div className="avatar relative">
+          <div className="avatar relative h-[230px] w-[230px]">
             <img
-              className="rounded-full h-[230px] w-[230px] flex items-center justify-center"
+              style={{
+                objectFit: 'cover'
+              }}  
+              className="rounded-full h-[230px] w-[230px] object-cover flex items-center justify-center"
               src={source || accountInfo?.avatar?.url}
             />
             <div className="edit-container absolute bottom-0">

@@ -27,7 +27,8 @@
     "hrm": "HRM",
     "request": "Request",
     "people": "People",
-    "my_profile": "My profile"
+    "my_profile": "My profile",
+    "meeting": "Meeting"
   },
   "log_in": "Login",
   "COffice": "COffice Software",
@@ -64,6 +65,62 @@
     "university": "University",
     "level": "Level"
   },
+  "log_time": {
+    "current_time": "Current time",
+    "full_name": "FULL NAME",
+    "check_in": "CHECK-IN",
+    "check_out": "CHECK-OUT",
+    "note": "note"
+  },
+  "projects": {
+    "done": "Done",
+    "total": "Total",
+    "closed": "Closed",
+    "search": "Search for project",
+    "search_button": "Search"
+  },
+  "project": {
+    "overview": "Overview",
+    "activity": "Activity",
+    "issues": "Issues",
+    "spent_time": "Spent time",
+    "wiki": "Wiki",
+    "development": "Development",
+    "kickoff_date": "Kickoff date",
+    "deadline": "Deadline",
+    "members": "Members",
+    "issue_tracking": "Issue tracking",
+    "open": "open",
+    "closed": "closed",
+    "total": "total"
+  },
+  "requests": {
+    "over_time": "Over time",
+    "absence": "Absence",
+    "filter": "Filter",
+    "name": "Name",
+    "status": "Status",
+    "add_new_overtime": "Add new over time",
+    "add_new_absence": "Add new absence",
+    "user": "user",
+    "publish_at": "published at",
+    "date": "date",
+    "start_time": "start time",
+    "end_time": "end time",
+    "reason": "reason",
+    "status_table": "status",
+    "over_time_request": "Over time request",
+    "absence_request": "Absence request",
+    "type": "type",
+    "new_over_time": "New overtime",
+    "submit": "submit",
+    "note": "note",
+    "new_absence": "New absence"
+  },
+  "people": {
+    "people": "People",
+    "search": "Search for people"
+  },
   "error": {
     "subject_required": "Subject is required",
     "subject_max_length": "The field needs to be less than 255",
@@ -75,5 +132,11 @@
     "required": "The field is required",
     "min_length": "The field needs to be at least {{length}}",
     "max_length": "The field needs to be less than {{length}}"
+  },
+  "meetings": {
+    "create_a_meeting": "Create a meeting",
+    "meeting_name": "Meeting Name",
+    "create_meeting": "Create meeting",
+    "join_meeting": "Join meeting"
   }
 }

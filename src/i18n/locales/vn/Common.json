@@ -64,5 +64,89 @@
     "Title": "Kinh nghiệm làm việc"
   },
   "Present": "Hiện nay",
-  "MyProjects": "Các dự án"
+  "MyProjects": "Các dự án",
+  "log_time": {
+    "current_time": "Thời gian hiện tại",
+    "full_name": "TÊN",
+    "check_in": "CHECK-IN",
+    "check_out": "CHECK-OUT",
+    "note": "Điền vào"
+  },
+  "projects": {
+    "done": "Hoàn thành",
+    "total": "Tổng số",
+    "closed": "Đóng",
+    "search": "Tìm kiểm dự án",
+    "search_button": "Tìm kiểm"
+  },
+  "project": {
+    "overview": "Tổng quan",
+    "activity": "Hoạt động",
+    "issues": "Công việc",
+    "spent_time": "Thời gian",
+    "wiki": "Tài liệu",
+    "development": "Phát triển",
+    "kickoff_date": "Thời gian bắt đầu",
+    "deadline": "Hạn",
+    "members": "Thành viên",
+    "issue_tracking": "Theo dõi công việc",
+    "open": "mở",
+    "closed": "đóng",
+    "total": "tổng"
+  },
+  "requests": {
+    "over_time": "Tăng ca",
+    "absence": "Vắng mặt",
+    "filter": "Lọc",
+    "name": "Tên",
+    "status": "Trạng thái",
+    "add_new_overtime": "Tạo đơn tăng ca",
+    "add_new_absence": "Tạo đơn váng mặt",
+    "user": "người dùng",
+    "publish_at": "công bố ngày",
+    "date": "ngày",
+    "start_time": "bắt đầu",
+    "end_time": "kết thúc",
+    "reason": "lý do",
+    "status_table": "trạng thái",
+    "over_time_request": "Đơn tăng ca",
+    "absence_request": "Đơn xin nghỉ",
+    "type": "loại",
+    "new_over_time": "Đơn tăng ca mới",
+    "submit": "Gửi",
+    "note": "ghi chú",
+    "new_absence": "Đơn nghỉ phép mới"
+  },
+  "people": {
+    "people": "Người dùng",
+    "search": "Tìm kiếm người dùng"
+  },
+  "issues": {
+    "create_issue": "Tạo công việc",
+    "subject": "Tiêu đề",
+    "input": "Mô tả",
+    "startDate": "Bắt đầu",
+    "dueDate": "Kết thúc",
+    "estimateTime": "Kéo dài",
+    "output": "Mô tả",
+    "assignee": "Người làm",
+    "priority": "Độ ưu tiên",
+    "tracker": "Loại",
+    "status": "Trạng thái",
+    "categoryId": "Phân loại",
+    "projectId": "Dự án",
+    "completedPercent": "% Hoàn thành",
+    "create": "Tạo",
+    "create_and_add_another": "Tạo và tạo tiếp",
+    "add_new_issue": "Tạo công việc mới",
+    "edit_issue": "Chỉnh sửa công việc",
+    "update_issue": "Cập nhật",
+    "add_output": "Thêm output"
+  },
+  "meetings": {
+    "create_a_meeting": "Tạo 1 cuộc gọi",
+    "meeting_name": "Tên cuộc gọi",
+    "create_meeting": "Tạo cuộc gọi",
+    "join_meeting": "Tham gia cuộc gọi"
+  }
 }

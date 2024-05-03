@@ -14,6 +14,7 @@ export const DEFAULT_LANGUAGE = process.env.REACT_APP_LANGUAGE || 'frn'
 const ALL_THEMES = 'themes'
 const CURRENT_THEME = 'theme'
 export const COFFICE_ACCESS_TOKEN = 'coffice-access-token'
+export const LANGUAGE = 'language'
 
 const SIDEBAR_WIDTH = '260px'
 const SIDEBAR_COLLAPSED_WIDTH = '92px'

@@ -27,20 +27,22 @@ export function middleware(req: NextRequest) {
   );
 
   // Redirect if lng in path is not supported
-  if (!paramLng) {
-    const response = NextResponse.redirect(
-      new URL(`/${lng}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url),
-    );
+  // if (!paramLng) {
+  //   const response = NextResponse.redirect(
+  //     new URL(`/${lng}${req.nextUrl.pathname}${req.nextUrl.search}`, req.url),
+  //   );
 
-    response.cookies.set(I18nCookieName, lng);
-    response.headers.set(I18nHeaderName, lng);
+  //   response.cookies.set(I18nCookieName, lng);
+  //   response.headers.set(I18nHeaderName, lng);
 
-    return response;
-  }
+  //   return response;
+  // }
 
   const response = NextResponse.next();
-  response.cookies.set(I18nCookieName, paramLng);
-  response.headers.set(I18nHeaderName, paramLng);
+  if(paramLng) {
+    response.cookies.set(I18nCookieName, paramLng);
+    response.headers.set(I18nHeaderName, paramLng);
+  }
 
   return response;
 }

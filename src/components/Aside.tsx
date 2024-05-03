@@ -4,6 +4,9 @@ import { FieldTimeOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import { EAside } from "@/enum";
+import { useClientTranslation } from "@/i18n/client";
+import Cookies from 'js-cookie'
+import { LANGUAGE } from "@/configs";
 
 type AsideProps = {
   title?: EAside;
@@ -12,7 +15,8 @@ type AsideProps = {
 const Aside = ({ title }: AsideProps) => {
   const params = useParams();
   const projectId = params.id;
-  console.log("title", title);
+  const { t } = useClientTranslation("Common");
+  const language = Cookies.get(LANGUAGE) ?? 'en';
   return (
     <aside
       id="separator-sidebar"
@@ -23,20 +27,20 @@ const Aside = ({ title }: AsideProps) => {
         <ul className="space-y-2 font-medium">
           <li>
             <Link
-              href={`/projects/${projectId}`}
+              href={`/${language}/projects/${projectId}`}
               className={`group flex items-center rounded-lg p-2 ${title === EAside.overview ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
-              <span className="ms-3">Overview</span>
+              <span className="ms-3">{t("project.overview")}</span>
             </Link>
           </li>
           <li>
             <Link
-              href={`/projects/${projectId}/activity`}
+              href={`/${language}/projects/${projectId}/activity`}
               className={`group flex items-center rounded-lg p-2 ${title === EAside.activity ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
-              <span className="ms-3 flex-1 whitespace-nowrap">Activity</span>
+              <span className="ms-3 flex-1 whitespace-nowrap">{t("project.activity")}</span>
               <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
                 Pro
               </span>
@@ -44,11 +48,11 @@ const Aside = ({ title }: AsideProps) => {
           </li>
           <li>
             <Link
-              href={`/projects/${projectId}/issues`}
+              href={`/${language}/projects/${projectId}/issues`}
               className={`group flex items-center rounded-lg p-2 ${title === EAside.issues ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
-              <span className="ms-3 flex-1 whitespace-nowrap">Issues</span>
+              <span className="ms-3 flex-1 whitespace-nowrap">{t("project.issues")}</span>
             </Link>
           </li>
           <li>
@@ -57,16 +61,20 @@ const Aside = ({ title }: AsideProps) => {
               className={`group flex items-center rounded-lg p-2 ${title === EAside.spent_time ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
-              <span className="ms-3 flex-1 whitespace-nowrap">Spent time</span>
+              <span className="ms-3 flex-1 whitespace-nowrap">{t("project.spent_time")}</span>
+              <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                Pro
+              </span>
             </Link>
+            
           </li>
           <li>
             <Link
-              href={"/"}
+              href={`/${language}/projects/${projectId}/wiki`}
               className={`group flex items-center rounded-lg p-2 ${title === EAside.wiki ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
-              <span className="ms-3 flex-1 whitespace-nowrap">Wiki</span>
+              <span className="ms-3 flex-1 whitespace-nowrap">{t("project.wiki")}</span>
             </Link>
           </li>
         </ul>
@@ -77,7 +85,7 @@ const Aside = ({ title }: AsideProps) => {
               className={`group flex items-center rounded-lg p-2 ${title === EAside.development ? "bg-gray-200" : "text-gray-900"} hover:bg-gray-200 dark:text-black dark:hover:bg-gray-700`}
             >
               <FieldTimeOutlined />
-              <span className="ms-3 flex-1 whitespace-nowrap">Development</span>
+              <span className="ms-3 flex-1 whitespace-nowrap">{t("project.development")}</span>
               <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-200 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
                 Pro
               </span>

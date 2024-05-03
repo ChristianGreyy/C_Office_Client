@@ -8,7 +8,7 @@ import {
   verifyPasswordAction,
 } from '../actions/auth'
 import { IUserDetail } from '@/interfaces'
-import { updateProfileAction } from '../actions/user-management'
+import { getProfileAction, updateProfileAction } from '../actions/user-management'
 
 interface IAuth {
   accessToken?: string
@@ -48,6 +48,18 @@ const authSlice = createSlice({
     })
     builder.addCase(loginAction.rejected, (state) => {
       state.loadings[`loginActionLoading`] = false
+      state.accessToken = ''
+    })
+    builder.addCase(getProfileAction.pending, (state) => {
+      state.loadings[`getProfileActionLoading`] = true
+    })
+    builder.addCase(getProfileAction.fulfilled, (state, action) => {
+      console.log('action.payload', action.payload)
+      state.loadings[`getProfileActionLoading`] = false
+      state.accountInfo = action.payload;
+    })
+    builder.addCase(getProfileAction.rejected, (state) => {
+      state.loadings[`getProfileActionLoading`] = false
       state.accessToken = ''
     })
     builder.addCase(forgotPasswordAction.pending, (state) => {

@@ -1,21 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import { useContext, useMemo, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { useCallback, useContext, useMemo, useState } from "react";
 import Select from "react-select";
 
 import { useClientTranslation } from "@/i18n/client.ts";
 import { Language } from "@/i18n/configs.ts";
 import { useLanguage } from "@/i18n/hooks.ts";
 
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
-
-import { ENavbar, EThemeMode } from "../enum/index.ts";
-import MenuOverlay from "./MenuOverlay";
-import NavLink from "./NavLink.tsx";
-import { ThemeContext } from "./Providers.tsx";
+import { RootState, authActions, useAppDispatch } from "@/redux/index.ts";
 import { UserOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { ENavbar, EThemeMode } from "../enum/index.ts";
+import NavLink from "./NavLink.tsx";
+import Notification from "./Notification.tsx";
+import { ThemeContext } from "./Providers.tsx";
+import Cookies from 'js-cookie'
+import { LANGUAGE } from "@/configs/constants.ts";
 
 type Props = {
   title?: ENavbar;
@@ -23,34 +25,44 @@ type Props = {
 
 const Navbar = ({ title }: Props) => {
   const params = useParams();
+  const { accountInfo } = useSelector((state: RootState) => state.auth);
   const lang = params.lang as Language;
   const { t } = useClientTranslation("Common");
   const [navbarOpen, setNavbarOpen] = useState(false);
   const [profileMenu, setProfileMenu] = useState(false);
   const { onChangeLanguage } = useLanguage();
   const { onChange, value } = useContext(ThemeContext);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [url, setUrl] = useState('log-time');
+  const language = Cookies.get(LANGUAGE) ?? 'en';
 
   const navLinks = useMemo(() => {
     return [
       {
         title: t("nav.log_time"),
-        path: "/log-time",
+        path: `/${language}/log-time`,
+        url: 'log-time'
       },
       {
         title: t("nav.projects"),
-        path: "/projects",
-      },
-      {
-        title: t("nav.hrm"),
-        path: "#contact",
+        path: `/${language}/projects`,
+        url: 'projects'
       },
       {
         title: t("nav.request"),
-        path: "#contact",
+        path: `/${language}/requests/over-time`,
+        url: 'over-time'
       },
       {
         title: t("nav.people"),
-        path: "#contact",
+        path: `/${language}/users`,
+        url: 'users'
+      },
+      {
+        title: t("nav.meeting"),
+        path: `/${language}/meetings`,
+        url: 'meetings'
       },
     ];
   }, [t]);
@@ -62,12 +74,18 @@ const Navbar = ({ title }: Props) => {
     ];
   }, []);
 
+  const handleSignOut = useCallback(() => {
+    dispatch(authActions.logout());
+    router.push("/login", { scroll: false });
+    setProfileMenu(false);
+  }, []);
+
   return (
     <nav className="fixed left-0 right-0 top-0 z-10 mx-auto border border-[#33353F] bg-sky-600 bg-opacity-100 dark:bg-[#121212]">
       <div className="container mx-auto flex flex-wrap items-center justify-between px-4 py-2 lg:py-4">
         <div className="flex">
           <Link
-            href={"/"}
+            href={`/${language}/log-time`}
             className="text-ss font-semibold uppercase text-white dark:text-white md:text-3xl"
           >
             {t("Common:COffice")}
@@ -80,6 +98,8 @@ const Navbar = ({ title }: Props) => {
                     href={link.path}
                     title={link.title}
                     style={"leading-10 h-full"}
+                    url={link.url}
+                    currentUrl={url}
                   />
                 </li>
               ))}
@@ -91,6 +111,9 @@ const Navbar = ({ title }: Props) => {
             value={options.find((item) => item.value === lang)}
             onChange={(item) => {
               onChangeLanguage(item?.value ?? Language.EN);
+              Cookies.set(LANGUAGE, item?.value ?? Language.EN, {
+                expires: 7,
+              })
             }}
             options={options}
             styles={{
@@ -99,6 +122,7 @@ const Navbar = ({ title }: Props) => {
                   ...base,
                   backgroundColor: "transparent",
                   minHeight: "unset",
+                  color: '#fff'
                 };
               },
               singleValue(base, props) {
@@ -122,12 +146,20 @@ const Navbar = ({ title }: Props) => {
               },
             }}
           />
-          <div className="profile-menu ml-6">
+          <div className="ml-8">
+            <div className="relative">
+              <Notification />
+            </div>
+          </div>
+          <div className="profile-menu ml-6 relative">
             <img
               alt="tania andrew"
-              src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
+              src={accountInfo?.avatar?.url}
               className="relative inline-block h-12 w-12 cursor-pointer rounded-full object-cover object-center"
               data-popover-target="profile-menu"
+              style={{
+                objectFit: "cover",
+              }}
               onClick={() => setProfileMenu(!profileMenu)}
             />
             {profileMenu && (
@@ -135,10 +167,10 @@ const Navbar = ({ title }: Props) => {
                 role="menu"
                 data-popover="profile-menu"
                 data-popover-placement="bottom"
-                className="absolute z-10 flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
+                className="absolute flex min-w-[180px] flex-col gap-2 overflow-auto rounded-md border border-blue-gray-50 bg-white p-3 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none !right-0	mt-2"
               >
                 <Link
-                  href={`/en/profile`}
+                  href={`/${language}/profile`}
                   className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
                 >
                   <UserOutlined />
@@ -147,7 +179,6 @@ const Navbar = ({ title }: Props) => {
                   </p>
                 </Link>
                 <button
-                  tabIndex="-1"
                   role="menuitem"
                   className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
                 >
@@ -170,13 +201,9 @@ const Navbar = ({ title }: Props) => {
                     Help
                   </p>
                 </button>
-                <hr
-                  className="my-2 border-blue-gray-50"
-                  tabindex="-1"
-                  role="menuitem"
-                />
+                <hr className="my-2 border-blue-gray-50" role="menuitem" />
                 <button
-                  tabIndex="-1"
+                  onClick={handleSignOut}
                   role="menuitem"
                   className="flex w-full cursor-pointer select-none items-center gap-2 rounded-md px-3 pt-[9px] pb-2 text-start leading-tight outline-none transition-all hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900"
                 >

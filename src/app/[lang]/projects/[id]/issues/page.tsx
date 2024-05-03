@@ -2,7 +2,7 @@
 
 // This is a client component 👈🏽
 import moment from "moment";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "react-clock/dist/Clock.css";
 
 import Aside from "@/components/Aside";
@@ -23,12 +23,16 @@ import { t } from "i18next";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
+import Cookies from 'js-cookie'
+import { LANGUAGE } from "@/configs";
 
 export default function IssuesPage() {
   const { issues } = useSelector((state: RootState) => state.issues);
   const { trackers } = useSelector((state: RootState) => state.trackers);
   const { priorities } = useSelector((state: RootState) => state.priorities);
   const { statuses } = useSelector((state: RootState) => state.statuses);
+  const [page, setPage] = useState(1);
+  const language = Cookies.get(LANGUAGE) ?? 'en';
 
   const params = useParams();
   const projectId = params.id;
@@ -36,7 +40,12 @@ export default function IssuesPage() {
   const dispatch = useAppDispatch();
 
   const getAllIssues = () => {
-    dispatch(getAllIssuesAction());
+    dispatch(
+      getAllIssuesAction({
+        page,
+        projectId
+      })
+    );
     dispatch(getAllTrackersAction());
     dispatch(getAllPrioritiesAction());
     dispatch(getAllStatusesAction());
@@ -44,13 +53,13 @@ export default function IssuesPage() {
 
   useEffect(() => {
     getAllIssues();
-  }, [dispatch]);
+  }, [dispatch, page]);
 
   return (
     <Providers>
-      <main className="flex min-h-screen flex-col bg-[rgb(242, 244, 247)]">
+      <main className="flex h-max flex-col bg-[rgb(242, 244, 247)]">
         <Navbar />
-        <div className="mt-20 flex gap-4 h-screen text-sm">
+        <div className="mt-20 flex gap-4 text-sm">
           <div className="basis-1/6">
             <Aside title={EAside.issues} />
           </div>
@@ -60,10 +69,8 @@ export default function IssuesPage() {
                 <SwitchProject />
               </div>
               <div className="bg-sky-600 flex items-center text-white py-2 px-4 rounded-lg">
-                <Link
-                  href={`/en/projects/${projectId}/issues/add-issue`}
-                >
-                  {t('issues.add_new_issue')}
+                <Link href={`/${language}/projects/${projectId}/issues/add-issue`}>
+                  {t("issues.add_new_issue")}
                 </Link>
               </div>
             </div>
@@ -153,15 +160,14 @@ export default function IssuesPage() {
                   <thead className="uppercase">
                     <tr className="leading-10 border-b">
                       <th className="text-center">#</th>
-                      <th className="text-center">Tracker</th>
-                      <th className="text-center">Status</th>
-                      <th className="text-center">Priority</th>
-                      <th className="text-center">Subject</th>
-                      <th className="text-center">Assignee</th>
-                      <th className="text-center">Estimated time</th>
-                      <th className="text-center">Spent time</th>
-                      <th className="text-center">Start date</th>
-                      <th className="text-center">Due date</th>
+                      <th className="text-center">{t("issues.tracker")}</th>
+                      <th className="text-center">{t("issues.status")}</th>
+                      <th className="text-center">{t("issues.priority")}</th>
+                      <th className="text-center">{t("issues.subject")}</th>
+                      <th className="text-center">{t("issues.assignee")}</th>
+                      <th className="text-center">{t("issues.estimateTime")}</th>
+                      <th className="text-center">{t("issues.startDate")}</th>
+                      <th className="text-center">{t("issues.dueDate")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -171,7 +177,7 @@ export default function IssuesPage() {
                           <td className="text-left">
                             <Link
                               className="underline hover:text-[#0051cc]"
-                              href={`/en/projects/${projectId}/issues/${issue.id}`}
+                              href={`/${language}/projects/${projectId}/issues/${issue.id}`}
                             >
                               #{issue.id}
                             </Link>
@@ -181,12 +187,12 @@ export default function IssuesPage() {
                           <td className="text-center">
                             {issue.priority?.name}
                           </td>
-                          <td className="text-center">{issue.subject}</td>
+                          <td className="text-center">{issue.subject.length > 30 ? `${issue.subject.slice(0, 27)}...` : issue.subject}</td>
                           <td className="text-center">
                             {issue.assigner && (
                               <Link
                                 className="underline hover:text-[#0051cc]"
-                                href={`/en/user/${issue.assigner.id}}`}
+                                href={`/${language}/user/${issue.assigner.id}}`}
                               >
                                 {issue.assigner?.firstName}{" "}
                                 {issue.assigner?.lastName}
@@ -194,7 +200,6 @@ export default function IssuesPage() {
                             )}
                           </td>
                           <td className="text-center">{issue.estimateTime}</td>
-                          <td className="text-center">{issue.spentTime}</td>
                           <td className="text-center">
                             {moment(issue.startDate).format("DD/MM/YYYY")}
                           </td>
@@ -207,9 +212,35 @@ export default function IssuesPage() {
                 </table>
               </h1>
             </div>
+            <nav aria-label="Page navigation example">
+              <ul className="inline-flex -space-x-px text-sm">
+                <li
+                  onClick={() => {
+                    setPage(page - 1 <= 0 ? 1 : page - 1);
+                  }}
+                >
+                  <div className="flex items-center cursor-pointer justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Previous
+                  </div>
+                </li>
+                <li>
+                  <div className="flex items-center cursor-pointer justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    {page}
+                  </div>
+                </li>
+                <li
+                  onClick={() => {
+                    setPage(page + 1);
+                  }}
+                >
+                  <div className="flex items-center cursor-pointer justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Next
+                  </div>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
-        <Footer />
       </main>
     </Providers>
   );

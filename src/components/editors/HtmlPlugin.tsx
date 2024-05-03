@@ -15,8 +15,6 @@ const HtmlPlugin = ({ initialHtml, onHtmlChanged, isEdit }: Props) => {
 
   const [isFirstRender, setIsFirstRender] = useState(true);
   useEffect(() => {
-    console.log('initialHtml', initialHtml)
-    console.log('isFirstRender', isFirstRender)
     if (!initialHtml || !isFirstRender) return;
 
     if(isEdit && !initialHtml) {

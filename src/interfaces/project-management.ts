@@ -22,6 +22,7 @@ export type TDeleteProjectData = Partial<IProjectDetail> & { isSoft: boolean };
 export interface IProjectDetail {
   id?: number;
   name: string;
+  wiki: string;
   issues?: IIssueDetail[];
   kickOffDate: string;
   deadline: string;
@@ -57,8 +58,10 @@ export interface IProjectMemberLayout {
 }
 
 
-export interface IEditProjectData {
+export interface IEditProject {
+  id?: number;
   name?: string;
+  wiki?: string;
 }
 
 export enum EProjectMemberRole {

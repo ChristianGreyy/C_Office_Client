@@ -18,3 +18,8 @@ export enum EAside {
   spent_time = 'spent_time',
   development = 'development',
 }
+
+export enum ERequestAside {
+  over_time = 'over_time',
+  absence = 'absence',
+}
